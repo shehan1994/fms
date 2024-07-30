@@ -6,7 +6,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Navigate, NavLink, Outlet } from "react-router-dom";
+import {Navigate, NavLink, Outlet, useNavigate} from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
 import { useEffect } from "react";
@@ -23,6 +23,8 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
+
+  const navigate = useNavigate();
   const { currentUser, userToken, setCurrentUser, setUserToken } =
     useStateContext();
 
@@ -38,6 +40,14 @@ export default function DefaultLayout() {
     });
   };
 
+  const onJobClick = (ev) => {
+    navigate("/job/create");
+  };
+
+  const onJobCardClick = (ev) => {
+    navigate("/job_card/create");
+  };
+
   useEffect(() => {
     axiosClient.get('/me')
       .then(({ data }) => {
@@ -49,7 +59,7 @@ export default function DefaultLayout() {
     <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
-          {({ open }) => (
+          {({open}) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
@@ -63,7 +73,7 @@ export default function DefaultLayout() {
                           <NavLink
                             key={item.name}
                             to={item.to}
-                            className={({ isActive }) =>
+                            className={({isActive}) =>
                               classNames(
                                 isActive
                                   ? "bg-gray-900 text-white"
@@ -74,7 +84,49 @@ export default function DefaultLayout() {
                           >
                             {item.name}
                           </NavLink>
+
                         ))}
+                        <Menu as="div" className="relative ml-3">
+                          <div>
+                            <Menu.Button
+                              className={({isActive}) =>
+                                classNames(
+                                  isActive
+                                    ? "bg-gray-900 text-white"
+                                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                  "px-3 py-2 rounded-md text-sm font-medium"
+                                )
+                              }>
+                              Job Card
+                            </Menu.Button>
+                          </div>
+                          <Menu.Items
+                            className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                              <a
+                                href="#"
+                                onClick={(ev) => onJobCardClick(ev)}
+                                className={
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                }
+                              >
+                                Job Card
+                              </a>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <a
+                                href="#"
+                                onClick={(ev) => onJobClick(ev)}
+                                className={
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                }
+                              >
+                                Job
+                              </a>
+                            </Menu.Item>
+                          </Menu.Items>
+                        </Menu>
+
                       </div>
                     </div>
                   </div>
@@ -83,9 +135,10 @@ export default function DefaultLayout() {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <Menu.Button
+                            className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
-                            <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" />
+                            <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white"/>
                           </Menu.Button>
                         </div>
                         <Transition
@@ -97,7 +150,8 @@ export default function DefaultLayout() {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Items
+                            className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                               <a
                                 href="#"
@@ -116,7 +170,8 @@ export default function DefaultLayout() {
                   </div>
                   <div className="-mr-2 flex md:hidden">
                     {/* Mobile menu button */}
-                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Disclosure.Button
+                      className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <XMarkIcon
@@ -140,7 +195,7 @@ export default function DefaultLayout() {
                     <NavLink
                       key={item.name}
                       to={item.to}
-                      className={({ isActive }) =>
+                      className={({isActive}) =>
                         classNames(
                           isActive
                             ? "bg-gray-900 text-white"
@@ -156,7 +211,7 @@ export default function DefaultLayout() {
                 <div className="border-t border-gray-700 pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" />
+                      <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white"/>
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
@@ -174,8 +229,9 @@ export default function DefaultLayout() {
                       onClick={(ev) => logout(ev)}
                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                     >
-                      Sign out
+                      Sign out a
                     </Disclosure.Button>
+
                   </div>
                 </div>
               </Disclosure.Panel>
@@ -183,9 +239,9 @@ export default function DefaultLayout() {
           )}
         </Disclosure>
 
-        <Outlet />
+        <Outlet/>
 
-        <Toast />
+        <Toast/>
       </div>
     </>
   );
