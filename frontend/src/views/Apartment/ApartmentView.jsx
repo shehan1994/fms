@@ -27,16 +27,6 @@ export default function ApartmentView() {
   const onSubmit = (ev) => {
     ev.preventDefault();
 
-    /*axiosClient.post(`/apartment`, {
-      apt_no:"AP001",
-      customer_id:1,
-      address_01:"A1",
-      address_02:"A2",
-      city:"city",
-      status:"1",
-
-    });*/
-
     const payload = { ...apartment };
     /**/delete payload.image_url;
     let res = null;
@@ -63,7 +53,6 @@ export default function ApartmentView() {
         console.log(err, err.response);
       });
   };
-
 
   const onBackButton = () => {
     navigate("/apartments");
@@ -103,7 +92,7 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="first_name"
+                    htmlFor="customer"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Customer Name
@@ -123,15 +112,15 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="last_name"
+                    htmlFor="apt_no"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Apartment No
                   </label>
                   <input
                     type="text"
-                    name="last_name"
-                    id="last_name"
+                    name="apt_no"
+                    id="apt_no"
                     value={apartment.apt_no}
                     onChange={(ev) =>
                       setApartment({...apartment, apt_no: ev.target.value})
@@ -143,15 +132,15 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="nic"
+                    htmlFor="address_01"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Address Line 01
                   </label>
                   <input
                     type="text"
-                    name="nic"
-                    id="nic"
+                    name="address_01"
+                    id="address_01"
                     value={apartment.address_01}
                     onChange={(ev) =>
                       setApartment({...apartment, address_01: ev.target.value})
@@ -163,15 +152,15 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="nic"
+                    htmlFor="address_02"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Address Line 02
                   </label>
                   <input
                     type="text"
-                    name="nic"
-                    id="nic"
+                    name="address_02"
+                    id="address_02"
                     value={apartment.address_02}
                     onChange={(ev) =>
                       setApartment({...apartment, address_02: ev.target.value})
@@ -183,15 +172,15 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="passport_no"
+                    htmlFor="city"
                     className="block text-sm font-medium text-gray-700"
                   >
                     City
                   </label>
                   <input
                     type="text"
-                    name="passport_no"
-                    id="passport_no"
+                    name="city"
+                    id="city"
                     value={apartment.city}
                     onChange={(ev) =>
                       setApartment({...apartment, city: ev.target.value})
@@ -203,16 +192,16 @@ export default function ApartmentView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="email"
+                    htmlFor="status"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Status
                   </label>
                   <input
                     type="text"
-                    name="email"
-                    id="email"
-                    value={apartment.email}
+                    name="status"
+                    id="status"
+                    value={apartment.status}
                     onChange={(ev) =>
                       setApartment({...apartment, status: ev.target.value})
                     }
@@ -232,3 +221,4 @@ export default function ApartmentView() {
     </PageComponent>
   );
 }
+
