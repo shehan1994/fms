@@ -96,38 +96,15 @@ export default function Jobs() {
                     scope="col"
                     className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                   >
-                    First Name
+                    Task
                   </th>
                   <th
                     scope="col"
                     className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                   >
-                    Last Name
+                    Amount
                   </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    NIC
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Passport
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Email
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    DOB
-                  </th>
+
                   <th
                     scope="col"
                     className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
@@ -145,18 +122,7 @@ export default function Jobs() {
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <p className="text-gray-900 whitespace-no-wrap">{row.last_name}</p>
                     </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.nic}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.passport_no}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.email}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.dob}</p>
-                    </td>
+
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <Link
                         to={`/customers/${row.id}`}
