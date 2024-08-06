@@ -1,12 +1,12 @@
 import { LinkIcon, PhotoIcon, TrashIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TButton from "../../components/core/TButton.jsx";
 import PageComponent from "../../components/PageComponent.jsx";
 import axiosClient from "../../axios.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import { useEffect } from "react";
 import { useStateContext } from "../../contexts/ContextProvider.jsx";
+import Select from 'react-select';
+import axios from 'axios';
 
 export default function ApartmentView() {
   const { showToast } = useStateContext();
@@ -23,12 +23,20 @@ export default function ApartmentView() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [customerOptions, setCustomerOptions] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+  const handleCustomerChange = (selectedOption) => {
+    console.log("1")
+    setSelectedCustomer(selectedOption);
+    setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
+  };
 
   const onSubmit = (ev) => {
     ev.preventDefault();
 
     const payload = { ...apartment };
-    /**/delete payload.image_url;
+    delete payload.image_url;
     let res = null;
     if (id) {
       res = axiosClient.put(`/apartment/${id}`, payload);
@@ -40,11 +48,7 @@ export default function ApartmentView() {
       .then((res) => {
         console.log(res);
         navigate("/apartments");
-        if (id) {
-          showToast("The apartment was updated");
-        } else {
-          showToast("The apartment was created");
-        }
+        showToast(id ? "The apartment was updated" : "The apartment was created");
       })
       .catch((err) => {
         if (err && err.response) {
@@ -63,10 +67,38 @@ export default function ApartmentView() {
       setLoading(true);
       axiosClient.get(`/apartment/${id}`).then(({ data }) => {
         setApartment(data.data);
+        setSelectedCustomer({
+          value: data.data.customer_id,
+          label: data.data.customer_name, // Assuming you have a customer_name field
+        });
         setLoading(false);
       });
     }
   }, [id]);
+
+  useEffect(() => {
+
+    console.log("2")
+    console.log("selectedCustomer",selectedCustomer)
+    console.log("selectedCustomer",selectedCustomer)
+    const fetchCustomers = async (inputValue) => {
+      try {
+        const response = await axiosClient.get(`/customers?search=${inputValue}`);
+        setCustomerOptions(response.data.map(customer => ({
+          value: customer.id,
+          label: customer.first_name,
+        })));
+      } catch (error) {
+        console.error('Error fetching customer options', error);
+      }
+    };
+
+    if (selectedCustomer && selectedCustomer.label) {
+      fetchCustomers(selectedCustomer.label);
+    } else {
+      setCustomerOptions([]);
+    }
+  }, [selectedCustomer?.label]);
 
   return (
     <PageComponent
@@ -97,16 +129,16 @@ export default function ApartmentView() {
                   >
                     Customer Name
                   </label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    id="first_name"
-                    value={apartment.customer_id}
-                    onChange={(ev) =>
-                      setApartment({...apartment, customer_id: ev.target.value})
-                    }
-                    placeholder="Customer"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  <Select
+                    id="customer"
+                    value={selectedCustomer}
+                    onChange={handleCustomerChange}
+                    options={customerOptions}
+                    placeholder="Select a customer"
+                    className="mt-1 block w-full"
+                    onInputChange={(inputValue) => {
+                      setSelectedCustomer({ label: inputValue });
+                    }}
                   />
                 </div>
 
@@ -123,7 +155,7 @@ export default function ApartmentView() {
                     id="apt_no"
                     value={apartment.apt_no}
                     onChange={(ev) =>
-                      setApartment({...apartment, apt_no: ev.target.value})
+                      setApartment({ ...apartment, apt_no: ev.target.value })
                     }
                     placeholder="Apartment No"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -143,7 +175,7 @@ export default function ApartmentView() {
                     id="address_01"
                     value={apartment.address_01}
                     onChange={(ev) =>
-                      setApartment({...apartment, address_01: ev.target.value})
+                      setApartment({ ...apartment, address_01: ev.target.value })
                     }
                     placeholder="Address Line 01"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -163,7 +195,7 @@ export default function ApartmentView() {
                     id="address_02"
                     value={apartment.address_02}
                     onChange={(ev) =>
-                      setApartment({...apartment, address_02: ev.target.value})
+                      setApartment({ ...apartment, address_02: ev.target.value })
                     }
                     placeholder="Address Line 02"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -183,7 +215,7 @@ export default function ApartmentView() {
                     id="city"
                     value={apartment.city}
                     onChange={(ev) =>
-                      setApartment({...apartment, city: ev.target.value})
+                      setApartment({ ...apartment, city: ev.target.value })
                     }
                     placeholder="City"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -203,7 +235,7 @@ export default function ApartmentView() {
                     id="status"
                     value={apartment.status}
                     onChange={(ev) =>
-                      setApartment({...apartment, status: ev.target.value})
+                      setApartment({ ...apartment, status: ev.target.value })
                     }
                     placeholder="Status"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -221,4 +253,3 @@ export default function ApartmentView() {
     </PageComponent>
   );
 }
-

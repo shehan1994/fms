@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -80,5 +81,24 @@ class CustomerController extends Controller
         }
         $customer->delete();
         return response('',204);
+    }
+
+    public function search(Request $request)
+    {
+        // Validate the request input
+        $request->validate([
+            'search' => 'required|string|min:1'
+        ]);
+
+        // Get the search query from the request
+        $search = $request->query('search');
+
+        // Fetch customers based on the search query
+        $customers = Customer::where('first_name', 'like', '%' . $search . '%')
+            ->select('id', 'first_name') // select only necessary fields
+            ->get();
+
+        // Return the results as JSON
+        return response()->json($customers);
     }
 }
