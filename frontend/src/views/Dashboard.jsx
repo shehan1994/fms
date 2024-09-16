@@ -105,28 +105,7 @@ export default function Dashboard() {
             className="order-4 lg:order-3 row-span-2"
             style={{ animationDelay: '0.3s' }}
           >
-            {data.latestAnswers.length && (
-              <div className="text-left">
-                {data.latestAnswers.map((answer) => (
-                  <a
-                    href="#"
-                    key={answer.id}
-                    className="block p-2 hover:bg-gray-100/90"
-                  >
-                    <div className="font-semibold">{answer.survey.title}</div>
-                    <small>
-                      Answer Made at:
-                      <i className="font-semibold">{answer.end_date}</i>
-                    </small>
-                  </a>
-                ))}
-              </div>
-            )}
-            {!data.latestAnswers.length && (
-              <div className="text-gray-600 text-center py-16">
-                Your don't have jobs today.
-              </div>
-            )}
+           
           </DashboardCard>
         </div>
       )}
