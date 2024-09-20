@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::apiResource('customer',\App\Http\Controllers\CustomerController::class);
     Route::apiResource('apartment',\App\Http\Controllers\ApartmentController::class);
+    Route::apiResource('employee',\App\Http\Controllers\EmployeeController::class);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/customers', [\App\Http\Controllers\CustomerController::class, 'search']);

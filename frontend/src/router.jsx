@@ -12,6 +12,8 @@ import JobCards from "./views/JobCard/JobCards.jsx";
 import JobCardView from "./views/JobCard/JobCardView.jsx";
 import Jobs from "./views/Job/Jobs.jsx";
 import JobView from "./views/Job/JobView.jsx";
+import Employees from "./views/Employee/Employees.jsx";
+import EmployeeView from "./views/Employee/EmployeeView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,18 @@ const router = createBrowserRouter([
       {
         path: "/apartments/:id",
         element: <ApartmentView />,
+      },
+      {
+        path: "/employees",
+        element: <Employees />,
+      },
+      {
+        path: "/employees/create",
+        element: <EmployeeView />,
+      },
+      {
+        path: "/employees/:id",
+        element: <EmployeeView />,
       },
       {
         path: "/customers",
