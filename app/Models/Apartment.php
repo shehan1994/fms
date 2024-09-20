@@ -13,4 +13,9 @@ class Apartment extends Model
         'apt_no','customer_id','user_id',
         'address_01','address_02','city','status','created_at',
         'updated_at'];
+
+        public function customer()
+        {
+            return $this->belongsTo(Customer::class, 'customer_id');
+        }
 }

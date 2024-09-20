@@ -6,7 +6,6 @@ import axiosClient from "../../axios.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.jsx";
 import Select from 'react-select';
-import axios from 'axios';
 
 export default function ApartmentView() {
   const { showToast } = useStateContext();
@@ -27,7 +26,6 @@ export default function ApartmentView() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const handleCustomerChange = (selectedOption) => {
-    console.log("1")
     setSelectedCustomer(selectedOption);
     setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
   };
@@ -76,29 +74,23 @@ export default function ApartmentView() {
     }
   }, [id]);
 
-  useEffect(() => {
 
-    console.log("2")
-    console.log("selectedCustomer",selectedCustomer)
-    console.log("selectedCustomer",selectedCustomer)
-    const fetchCustomers = async (inputValue) => {
-      try {
-        const response = await axiosClient.get(`/customers?search=${inputValue}`);
-        setCustomerOptions(response.data.map(customer => ({
-          value: customer.id,
-          label: customer.first_name,
-        })));
-      } catch (error) {
+  const fetchCustomers = (inputValue) => {
+    console.log("feching call", inputValue);
+    if (inputValue) {
+      axiosClient.get(`/customers?search=${inputValue}`).then((response) => {
+        setCustomerOptions(
+          response.data.map(customer => ({
+            value: customer.id,
+            label: customer.first_name+ ' ' + customer.last_name,
+          }))
+        );
+      }).catch((error) => {
         console.error('Error fetching customer options', error);
-      }
-    };
-
-    if (selectedCustomer && selectedCustomer.label) {
-      fetchCustomers(selectedCustomer.label);
-    } else {
-      setCustomerOptions([]);
+      });
     }
-  }, [selectedCustomer?.label]);
+
+  };
 
   return (
     <PageComponent
@@ -135,10 +127,7 @@ export default function ApartmentView() {
                     onChange={handleCustomerChange}
                     options={customerOptions}
                     placeholder="Select a customer"
-                    className="mt-1 block w-full"
-                    onInputChange={(inputValue) => {
-                      setSelectedCustomer({ label: inputValue });
-                    }}
+                    onInputChange={fetchCustomers}  // Fetch new customer options based on search input
                   />
                 </div>
 

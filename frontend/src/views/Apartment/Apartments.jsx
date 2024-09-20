@@ -50,7 +50,7 @@ export default function Apartments() {
     setCurrentPage(1);
   };
 
-  const filteredData = apartments.filter((item) =>
+  const filteredData = (apartments || []).filter((item) =>
     item.address_01.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -141,7 +141,7 @@ export default function Apartments() {
                 {currentRows.map((row) => (
                   <tr key={row.id}>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.customer_id}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.customer.first_name} {row.customer.last_name}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <p className="text-gray-900 whitespace-no-wrap">{row.apt_no}</p>

@@ -17,11 +17,13 @@ class ApartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $user= $request->user();
-        return ApartmentResource::collection(Apartment::where('user_id',$user->id)
-            ->orderBy('created_at','desc')
-            ->paginate(10)
-        );
+        $user = $request->user();
+
+    $result = Apartment::with(['customer:id,first_name,last_name'])  // Load customer relationship
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return ApartmentResource::collection($result);
     }
 
     /**
