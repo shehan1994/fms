@@ -6,11 +6,13 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {Navigate, NavLink, Outlet, useNavigate} from "react-router-dom";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
+import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import Toast from "./Toast";
+// import Swal from "sweetalert2";
 
 const navigation = [
   { name: "Dashboard", to: "/" },
@@ -23,10 +25,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function DefaultLayout() {
 
+
+export default function DefaultLayout() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentUser, userToken, setCurrentUser, setUserToken } =
+  const { currentUser, userToken, setCurrentUser, showToast } =
     useStateContext();
 
   if (!userToken) {
@@ -35,10 +39,41 @@ export default function DefaultLayout() {
 
   const logout = (ev) => {
     ev.preventDefault();
-    axiosClient.post("/logout").then((res) => {
-      setCurrentUser({});
-      setUserToken(null);
-    });
+
+    axiosClient
+      .post('/logout')
+      .then((data) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        if (error.response) {
+          const finalErrors = Object.values(error.response.data.errors).reduce(
+            (accum, next) => [...accum, ...next],
+            []
+          );
+          dispatch(loginFailure(finalErrors.join('<br>')));
+        }
+      });
+  };
+  const userManage = (ev) => {
+    ev.preventDefault();
+    showToast("Please contact admin");
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: "top-end",
+    //   showConfirmButton: false,
+    //   timer: 3000,
+    //   timerProgressBar: true,
+    //   didOpen: (toast) => {
+    //     toast.onmouseenter = Swal.stopTimer;
+    //     toast.onmouseleave = Swal.resumeTimer;
+    //   }
+    // });
+    // Toast.fire({
+    //   icon: "success",
+    //   title: "Signed in successfully"
+    // });
+    
   };
 
   const onJobClick = (ev) => {
@@ -60,7 +95,7 @@ export default function DefaultLayout() {
     <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
-          {({open}) => (
+          {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
@@ -74,7 +109,7 @@ export default function DefaultLayout() {
                           <NavLink
                             key={item.name}
                             to={item.to}
-                            className={({isActive}) =>
+                            className={({ isActive }) =>
                               classNames(
                                 isActive
                                   ? "bg-gray-900 text-white"
@@ -90,7 +125,7 @@ export default function DefaultLayout() {
                         <Menu as="div" className="relative ml-3">
                           <div>
                             <Menu.Button
-                              className={({isActive}) =>
+                              className={({ isActive }) =>
                                 classNames(
                                   isActive
                                     ? "bg-gray-900 text-white"
@@ -139,7 +174,7 @@ export default function DefaultLayout() {
                           <Menu.Button
                             className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
-                            <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white"/>
+                            <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" />
                           </Menu.Button>
                         </div>
                         <Transition
@@ -162,6 +197,17 @@ export default function DefaultLayout() {
                                 }
                               >
                                 Sign out
+                              </a>
+                            </Menu.Item>
+                            <Menu.Item>
+                              <a
+                                href="#"
+                                onClick={(ev) => userManage(ev)}
+                                className={
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                }
+                              >
+                                User Mangement
                               </a>
                             </Menu.Item>
                           </Menu.Items>
@@ -196,7 +242,7 @@ export default function DefaultLayout() {
                     <NavLink
                       key={item.name}
                       to={item.to}
-                      className={({isActive}) =>
+                      className={({ isActive }) =>
                         classNames(
                           isActive
                             ? "bg-gray-900 text-white"
@@ -212,7 +258,7 @@ export default function DefaultLayout() {
                 <div className="border-t border-gray-700 pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white"/>
+                      <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
@@ -230,7 +276,7 @@ export default function DefaultLayout() {
                       onClick={(ev) => logout(ev)}
                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                     >
-                      Sign out a
+                      Sign out
                     </Disclosure.Button>
 
                   </div>
@@ -239,10 +285,8 @@ export default function DefaultLayout() {
             </>
           )}
         </Disclosure>
-
-        <Outlet/>
-
-        <Toast/>
+        <Outlet />
+        <Toast />
       </div>
     </>
   );

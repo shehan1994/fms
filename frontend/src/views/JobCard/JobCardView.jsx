@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useStateContext } from "../../contexts/ContextProvider.jsx";
+import Select from 'react-select';
 
 export default function JobCardView() {
   const { showToast } = useStateContext();
@@ -24,6 +25,12 @@ export default function JobCardView() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedApartment, setSelectedApartment] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [customerOptions, setCustomerOptions] = useState([]);
+  const [apartmentOptions, setApartmentOptions] = useState([]);
+  const [employeeOptions, setEmployeeOptions] = useState([]);
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -70,6 +77,73 @@ export default function JobCardView() {
     }
   }, [id]);
 
+  const handleCustomerChange = (selectedOption) => {
+    setSelectedCustomer(selectedOption);
+    console.log("selected customer", selectedCustomer);
+    setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
+  };
+
+  const handleApartmentChange = (selectedOption) => {
+    setSelectedApartment(selectedOption);
+    console.log("selected apartment", selectedCustomer);
+    setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
+  };
+
+  const handleEmployeeChange = (selectedOption) => {
+    setSelectedEmployee(selectedOption);
+    setApartment({ ...apartment, id: selectedOption?.value || "" });
+  };
+
+  const fetchCustomers = (inputValue) => {
+    console.log("feching call", inputValue);
+    if (inputValue) {
+      axiosClient.get(`/customers?search=${inputValue}`).then((response) => {
+        setCustomerOptions(
+          response.data.map(customer => ({
+            value: customer.id,
+            label: customer.first_name + ' ' + customer.last_name,
+          }))
+        );
+      }).catch((error) => {
+        console.error('Error fetching customer options', error);
+      });
+    }
+  };
+
+  const fetchEmployees = (inputValue) => {
+    console.log("feching call", inputValue);
+    if (inputValue) {
+      axiosClient.get(`/employee?search=${inputValue}`).then((response) => {
+        console.log("after empo seach", response);
+        setEmployeeOptions(
+          response.data.data.map(employee => ({
+            value: employee.id,
+            label: employee.first_name + ' ' + employee.last_name + '-' + employee.designation,
+          }))
+        );
+      }).catch((error) => {
+        console.error('Error fetching employee options', error);
+      });
+    }
+  };
+
+  const fetchApartments = (inputValue) => {
+    if (inputValue) {
+      console.log("cust value", selectedCustomer.value);
+      axiosClient.get(`/apartments?customer=${selectedCustomer.value}&search=${inputValue}`).then((response) => {
+        console.log("resp", response);
+        setApartmentOptions(
+          response.data.map(apartment => ({
+            value: apartment.id,
+            label: apartment.apt_no + ' ' + apartment.address_01,
+          }))
+        );
+      }).catch((error) => {
+        console.error('Error fetching customer options', error);
+      });
+    }
+  };
+
   return (
     <PageComponent
       title={!id ? "Create new Job Card" : "Edit Job Card"}
@@ -94,78 +168,69 @@ export default function JobCardView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="first_name"
+                    htmlFor="customer"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Customer
+                    Customer Name
                   </label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    id="first_name"
-                    value={customer.first_name}
-                    onChange={(ev) =>
-                      setCustomer({...customer, first_name: ev.target.value})
-                    }
-                    placeholder="Search Customer"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  <Select
+                    id="customer"
+                    value={selectedCustomer}
+                    onChange={handleCustomerChange}
+                    options={customerOptions}
+                    placeholder="Select a customer"
+                    onInputChange={fetchCustomers}
                   />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="last_name"
+                    htmlFor="apartment"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Apartment
                   </label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    id="last_name"
-                    value={customer.last_name}
-                    onChange={(ev) =>
-                      setCustomer({...customer, last_name: ev.target.value})
-                    }
-                    placeholder="Apartment"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  <Select
+                    id="apartment"
+                    value={selectedApartment}
+                    onChange={handleApartmentChange}
+                    options={apartmentOptions}
+                    placeholder="Select a Apartment"
+                    onInputChange={fetchApartments}
                   />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="nic"
+                    htmlFor="employee"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Assign To
                   </label>
-                  <input
-                    type="text"
-                    name="nic"
-                    id="nic"
-                    value={customer.nic}
-                    onChange={(ev) =>
-                      setCustomer({...customer, nic: ev.target.value})
-                    }
-                    placeholder="Assign To"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  <Select
+                    id="employee"
+                    value={selectedEmployee}
+                    onChange={handleEmployeeChange}
+                    options={employeeOptions}
+                    placeholder="Select a employee"
+                    onInputChange={fetchEmployees}
                   />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="passport_no"
+                    htmlFor="job_task"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Job / Task
                   </label>
                   <input
                     type="text"
-                    name="passport_no"
-                    id="passport_no"
+                    name="job_task"
+                    id="job_task"
                     value={customer.passport_no}
                     onChange={(ev) =>
-                      setCustomer({...customer, passport_no: ev.target.value})
+                      setCustomer({ ...customer, passport_no: ev.target.value })
                     }
                     placeholder="Search Job"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -185,7 +250,7 @@ export default function JobCardView() {
                     id="dob"
                     value={customer.dob}
                     onChange={(ev) =>
-                      setCustomer({...customer, dob: ev.target.value})
+                      setCustomer({ ...customer, dob: ev.target.value })
                     }
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
@@ -204,7 +269,7 @@ export default function JobCardView() {
                     id="email"
                     value={customer.email}
                     onChange={(ev) =>
-                      setCustomer({...customer, email: ev.target.value})
+                      setCustomer({ ...customer, email: ev.target.value })
                     }
                     placeholder="Contact Number"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

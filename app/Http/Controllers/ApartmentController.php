@@ -7,6 +7,7 @@ use App\Models\Apartment;
 use App\Http\Requests\StoreApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
@@ -82,5 +83,29 @@ class ApartmentController extends Controller
         }
         $apartment->delete();
         return response('',204);
+    }
+
+    public function search(Request $request)
+    {
+        // Validate the request input
+        $request->validate([
+            'search' => 'required|string|min:1',
+            'customer' => 'required|integer'
+        ]);
+
+        // Get the search query from the request
+        $search = $request->query('search');
+        $customerId = $request->query('customer');
+
+        // Fetch apartment based on the search query
+        $apartments = $apartments = DB::table('apartments')
+        ->select('id', 'apt_no', 'address_01')
+        ->where('customer_id', $customerId)
+        ->where(function($query) use ($search) {
+            $query->where('apt_no', 'like', '%' . $search . '%')
+                  ->orWhere('address_01', 'like', '%' . $search . '%');
+        })
+        ->get();
+        return response()->json($apartments);
     }
 }

@@ -18,7 +18,6 @@ export default function Employees() {
     url = url || "/employee";
     setLoading(true);
     axiosClient.get(url).then(({data}) => {
-      console.log("load emp",data.data);
       setEmployees(data.data);
       setMeta(data.meta);
       setLoading(false);

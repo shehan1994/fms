@@ -49,16 +49,16 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-        // Revoke the token that was used to authenticate the current request...
-        $user->currentAccessToken()->delete();
+{
+    /** @var User $user */
+    $user = Auth::user();
+    $user->currentAccessToken()->delete();
 
-        return response([
-            'success' => true
-        ]);
-    }
+    return response([
+        'message' => 'Successfully logged out',
+        'success' => true
+    ]);
+}
 
     public function me(Request $request)
     {

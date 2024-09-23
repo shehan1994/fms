@@ -63,4 +63,16 @@ class EmployeeController extends Controller
         return new EmployeeResource($employee);
     }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|string|min:1'
+        ]);
+        $search = $request->query('search');
+        $customers = Employee::where('first_name', 'like', '%' . $search . '%')
+            ->select('id', 'first_name', 'last_name', 'designation') 
+            ->get();
+        return response()->json($customers);
+    }
+
 }

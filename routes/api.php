@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/customers', [\App\Http\Controllers\CustomerController::class, 'search']);
+    Route::get('/apartments', [\App\Http\Controllers\ApartmentController::class, 'search']);
+    Route::get('/employees', [\App\Http\Controllers\EmployeeController::class, 'search']);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
