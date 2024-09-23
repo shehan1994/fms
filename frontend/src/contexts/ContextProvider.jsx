@@ -11,8 +11,8 @@ const StateContext = createContext({
     message: null,
     show: false,
   },
-  setCurrentUser: () => {},
-  setUserToken: () => {},
+  setCurrentUser: () => { },
+  setUserToken: () => { },
 });
 
 const tmpSurveys = [
@@ -24,19 +24,24 @@ export const ContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const [surveys, setSurveys] = useState(tmpSurveys);
   const [questionTypes] = useState(['text', "select", "radio", "checkbox", "textarea"]);
-  const [toast, setToast] = useState({ message: '', show: false });
+  const [toast, setToast] = useState({
+    message: "",
+    icon: "success",
+    show: false
+  });
 
   const setCurrentUser = (user) => {
     // Here you would normally set the user using dispatch if needed
     // dispatch(setCurrentUser(user)); 
   };
 
-
-  const showToast = (message) => {
-    setToast({ message, show: true });
+  const showToast = (message, icon = "success") => {
+    setToast({ message, icon, show: true });
+  
+    // Reset the toast state after showing it
     setTimeout(() => {
-      setToast({ message: '', show: false });
-    }, 5000);
+      setToast({ message: "", icon: "success", show: false });
+    }, 3000);
   };
 
   return (

@@ -12,7 +12,6 @@ import axiosClient from "../axios";
 import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import Toast from "./Toast";
-// import Swal from "sweetalert2";
 
 const navigation = [
   { name: "Dashboard", to: "/" },
@@ -57,23 +56,7 @@ export default function DefaultLayout() {
   };
   const userManage = (ev) => {
     ev.preventDefault();
-    showToast("Please contact admin");
-    // const Toast = Swal.mixin({
-    //   toast: true,
-    //   position: "top-end",
-    //   showConfirmButton: false,
-    //   timer: 3000,
-    //   timerProgressBar: true,
-    //   didOpen: (toast) => {
-    //     toast.onmouseenter = Swal.stopTimer;
-    //     toast.onmouseleave = Swal.resumeTimer;
-    //   }
-    // });
-    // Toast.fire({
-    //   icon: "success",
-    //   title: "Signed in successfully"
-    // });
-    
+    showToast("Please contact Admin","warning");
   };
 
   const onJobClick = (ev) => {
@@ -286,7 +269,7 @@ export default function DefaultLayout() {
           )}
         </Disclosure>
         <Outlet />
-        <Toast />
+        <Toast/>
       </div>
     </>
   );
