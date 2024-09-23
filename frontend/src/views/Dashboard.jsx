@@ -96,7 +96,7 @@ export default function Dashboard() {
             )}
             {!data.latestJobCard && (
               <div className="text-gray-600 text-center py-16">
-                Your don't have surveys yet
+                Your don't have Jobs yet
               </div>
             )}
           </DashboardCard>
@@ -106,6 +106,15 @@ export default function Dashboard() {
             style={{ animationDelay: '0.3s' }}
           >
            
+          </DashboardCard>
+          <DashboardCard
+            title="Employee Count"
+            className="order-5 lg:order-3 row-span-2"
+            style={{ animationDelay: '0.3s' }}
+          >
+            <div className="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center">
+              {data.employee_total}
+            </div>
           </DashboardCard>
         </div>
       )}
