@@ -18,11 +18,12 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $user= $request->user();
-        return CustomerResource::collection(Customer::where('user_id',$user->id)
-            ->orderBy('created_at','desc')
-            ->paginate(10)
+
+        return CustomerResource::collection(
+            Customer::orderBy('created_at', 'desc')
+                ->paginate(10)
         );
+
     }
 
     /**
@@ -33,7 +34,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $data=$request->validated();
+        $data = $request->validated();
         $customer = Customer::create($data);
         return new CustomerResource($customer);
     }
@@ -44,11 +45,11 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer,Request $request)
+    public function show(Customer $customer, Request $request)
     {
         $user = $request->user();
-        if($user->id !== $customer->user_id){
-            return abort(403,"Unauthorized action");
+        if ($user->id !== $customer->user_id) {
+            return abort(403, "Unauthorized action");
         }
         return new CustomerResource($customer);
     }
@@ -73,14 +74,14 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer,Request $request)
+    public function destroy(Customer $customer, Request $request)
     {
         $user = $request->user();
-        if($user->id !== $customer->user_id){
-            return abort(403,"Unauthorized action");
+        if ($user->id !== $customer->user_id) {
+            return abort(403, "Unauthorized action");
         }
         $customer->delete();
-        return response('',204);
+        return response('', 204);
     }
 
     public function search(Request $request)
