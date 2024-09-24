@@ -113,7 +113,16 @@ export default function Dashboard() {
             style={{ animationDelay: '0.3s' }}
           >
             <div className="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center">
-              {data.employee_total}
+              {data.totalCustomer}
+            </div>
+          </DashboardCard>
+          <DashboardCard
+            title="Job Count"
+            className="order-5 lg:order-3 row-span-2"
+            style={{ animationDelay: '0.3s' }}
+          >
+            <div className="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center">
+              {data.job_total}
             </div>
           </DashboardCard>
         </div>
