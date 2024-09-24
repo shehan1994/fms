@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreJobCardRequest;
+use App\Http\Resources\JobCardResource;
 use App\Models\Job_card;
 use Illuminate\Http\Request;
 
@@ -33,9 +35,11 @@ class JobCardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreJobCardRequest $request)
     {
-        //
+        $data=$request->validated();
+        $jobCard = Job_card::create($data);
+        return new JobCardResource($jobCard);
     }
 
     /**

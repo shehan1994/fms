@@ -14,13 +14,13 @@ export default function JobCardView() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [customer, setCustomer] = useState({
-    first_name: "",
-    last_name: "",
-    passport_no: "",
-    nic: "",
-    email: "",
-    dob: "",
+  const [jobCard, setJobCard] = useState({
+    customer_id: "",
+    apartment_id: "",
+    employee_id: "",
+    task: "",
+    assign_date: "",
+    customer_contact_no: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -35,24 +35,20 @@ export default function JobCardView() {
   const onSubmit = (ev) => {
     ev.preventDefault();
 
-    const payload = { ...customer };
-    /**/delete payload.image_url;
+    const payload = { ...jobCard };
+    console.log("paylod", payload);
+    delete payload.image_url;
     let res = null;
     if (id) {
-      res = axiosClient.put(`/customer/${id}`, payload);
+      res = axiosClient.put(`/job_card/${id}`, payload);
     } else {
-      res = axiosClient.post("/customer", payload);
+      res = axiosClient.post("/job_card", payload);
     }
-
     res
       .then((res) => {
         console.log(res);
-        navigate("/customers");
-        if (id) {
-          showToast("The customer was updated");
-        } else {
-          showToast("The customer was created");
-        }
+        navigate("/");
+        showToast(id ? "The apartment was updated" : "The apartment was created");
       })
       .catch((err) => {
         if (err && err.response) {
@@ -79,19 +75,17 @@ export default function JobCardView() {
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption);
-    console.log("selected customer", selectedCustomer);
-    setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
+    setJobCard({ ...jobCard, customer_id: selectedOption?.value || "" });
   };
 
   const handleApartmentChange = (selectedOption) => {
     setSelectedApartment(selectedOption);
-    console.log("selected apartment", selectedCustomer);
-    setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
+    setJobCard({ ...jobCard, apartment_id: selectedOption?.value || "" });
   };
 
   const handleEmployeeChange = (selectedOption) => {
     setSelectedEmployee(selectedOption);
-    setApartment({ ...apartment, id: selectedOption?.value || "" });
+    setJobCard({ ...jobCard, employee_id: selectedOption?.value || "" });
   };
 
   const fetchCustomers = (inputValue) => {
@@ -228,9 +222,9 @@ export default function JobCardView() {
                     type="text"
                     name="job_task"
                     id="job_task"
-                    value={customer.passport_no}
+                    value={jobCard.task}
                     onChange={(ev) =>
-                      setCustomer({ ...customer, passport_no: ev.target.value })
+                      setJobCard({ ...jobCard, task: ev.target.value })
                     }
                     placeholder="Search Job"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -239,18 +233,18 @@ export default function JobCardView() {
 
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="dob"
+                    htmlFor="assign_date"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Assign Date
                   </label>
                   <input
                     type="date"
-                    name="dob"
-                    id="dob"
-                    value={customer.dob}
+                    name="assign_date"
+                    id="assign_date"
+                    value={jobCard.assign_date}
                     onChange={(ev) =>
-                      setCustomer({ ...customer, dob: ev.target.value })
+                      setJobCard({ ...jobCard, assign_date: ev.target.value })
                     }
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
@@ -267,9 +261,9 @@ export default function JobCardView() {
                     type="text"
                     name="email"
                     id="email"
-                    value={customer.email}
+                    value={jobCard.customer_contact_no}
                     onChange={(ev) =>
-                      setCustomer({ ...customer, email: ev.target.value })
+                      setJobCard({ ...jobCard, customer_contact_no: ev.target.value })
                     }
                     placeholder="Contact Number"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
