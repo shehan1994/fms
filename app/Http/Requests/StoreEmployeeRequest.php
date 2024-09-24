@@ -41,7 +41,6 @@ class StoreEmployeeRequest extends FormRequest
             'status' => 'required|integer',
             'age' => 'required|integer|min:18|max:65', // Adjust age limits as needed
             'dob' => 'required|date',
-            'emp_code' => 'required|string|max:50|unique:employees,emp_code',
             'join_date' => 'required|date',
         ];
     }

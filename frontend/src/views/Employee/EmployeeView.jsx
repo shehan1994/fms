@@ -16,7 +16,7 @@ export default function EmployeeView() {
     address_01: "",
     address_02: "",
     city: "",
-    status: "",
+    status: "", // Ensure status is still in the employee state
   });
 
   const [loading, setLoading] = useState(false);
@@ -31,6 +31,11 @@ export default function EmployeeView() {
     return `${year}-${month}-${day}`;
   }
 
+  const statusOptions = [
+    { value: 1, label: 'Active' },
+    { value: 2, label: 'Deactive' },
+    { value: 3, label: 'Terminate' },
+  ];
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -158,25 +163,6 @@ export default function EmployeeView() {
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="emp_code"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Employee Code
-                  </label>
-                  <input
-                    type="text"
-                    name="emp_code"
-                    id="emp_code"
-                    value={employee.emp_code}
-                    onChange={(ev) =>
-                      setEmployee({ ...employee, emp_code: ev.target.value })
-                    }
-                    placeholder="Employee Code"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
                     htmlFor="contact_no"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -296,16 +282,13 @@ export default function EmployeeView() {
                   >
                     Status
                   </label>
-                  <input
-                    type="text"
-                    name="status"
-                    id="status"
-                    value={employee.status}
-                    onChange={(ev) =>
-                      setEmployee({ ...employee, status: ev.target.value })
+                  <Select
+                    options={statusOptions}
+                    value={statusOptions.find(option => option.value === employee.status)}
+                    onChange={(selectedOption) =>
+                      setEmployee({ ...employee, status: selectedOption.value })
                     }
-                    placeholder="Status"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full"
                   />
                 </div>
               </div>
