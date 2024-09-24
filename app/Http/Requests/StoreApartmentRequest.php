@@ -16,13 +16,6 @@ class StoreApartmentRequest extends FormRequest
         return true;
     }
 
-    protected  function prepareForValidation()
-    {
-        $this->merge([
-            'user_id' => $this->user()->id
-        ]);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -37,7 +30,7 @@ class StoreApartmentRequest extends FormRequest
             'address_01'=>'required|string',
             'address_02'=>'nullable|string',
             'city'=>'nullable|string',
-            'status'=>'nullable|string',
+            'status'=>'nullable|integer',
         ];
     }
 }

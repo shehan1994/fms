@@ -30,7 +30,7 @@ export default function Apartments() {
   const getAparments = (url) => {
     url = url || "/apartment";
     setLoading(true);
-    axiosClient.get(url).then(({data}) => {
+    axiosClient.get(url).then(({ data }) => {
       setApartments(data.data);
       setMeta(data.meta);
       setLoading(false);
@@ -65,7 +65,7 @@ export default function Apartments() {
       title="Apartments"
       buttons={
         <TButton color="green" to="/apartments/create">
-          <PlusCircleIcon className="h-6 w-6 mr-2"/>
+          <PlusCircleIcon className="h-6 w-6 mr-2" />
           Create new
         </TButton>
       }
@@ -91,97 +91,104 @@ export default function Apartments() {
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
               <table className="min-w-full leading-normal">
                 <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Customer
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Apartment No
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Address 01
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Address 02
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    City
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Status
-                  </th>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Customer
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Apartment No
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Address 01
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Address 02
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      City
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Status
+                    </th>
 
-                  <th
-                    scope="col"
-                    className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Actions
-                  </th>
-                </tr>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Actions
+                    </th>
+                  </tr>
                 </thead>
                 <tbody>
-                {currentRows.map((row) => (
-                  <tr key={row.id}>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.customer.first_name} {row.customer.last_name}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.apt_no}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.address_01}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.address_02}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.city}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.status}</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <Link
-                        to={`/apartments/${row.id}`}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                  {currentRows.map((row) => (
+                    <tr key={row.id}>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.customer.first_name} {row.customer.last_name}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.apt_no}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.address_01}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.address_02}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.city}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className={`whitespace-no-wrap ${row.status === 1 ? "text-green-500" :
+                          row.status === 2 ? "text-yellow-500" :
+                            row.status === 3 ? "text-red-500" :
+                              "text-gray-900"
+                          }`}>
+                          {row.status === 1 ? "Active" :
+                            row.status === 2 ? "Deactive" :
+                              row.status === 3 ? "Terminated" :
+                                "-"}
+                        </p></td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <Link
+                          to={`/apartments/${row.id}`}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          Edit
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-              <span className="text-xs xs:text-sm text-gray-900">
-                Showing {indexOfFirstRow + 1} to {indexOfLastRow < filteredData.length ? indexOfLastRow : filteredData.length} of {filteredData.length} Entries
-              </span>
+                <span className="text-xs xs:text-sm text-gray-900">
+                  Showing {indexOfFirstRow + 1} to {indexOfLastRow < filteredData.length ? indexOfLastRow : filteredData.length} of {filteredData.length} Entries
+                </span>
                 <div className="inline-flex mt-2 xs:mt-0">
                   {[...Array(Math.ceil(filteredData.length / rowsPerPage)).keys()].map((number) => (
                     <button
                       key={number + 1}
                       onClick={() => paginate(number + 1)}
-                      className={`text-sm px-4 py-2 leading-none border rounded ${
-                        currentPage === number + 1 ? 'text-white bg-blue-500' : 'text-gray-600 bg-white'
-                      } hover:bg-gray-200`}
+                      className={`text-sm px-4 py-2 leading-none border rounded ${currentPage === number + 1 ? 'text-white bg-blue-500' : 'text-gray-600 bg-white'
+                        } hover:bg-gray-200`}
                     >
                       {number + 1}
                     </button>

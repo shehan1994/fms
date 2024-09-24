@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address_01',255);
             $table->string('address_02',255)->nullable();
             $table->string('city',255);
-            $table->string('status',255);
+            $table->integer('status');
             $table->timestamps();
         });
     }

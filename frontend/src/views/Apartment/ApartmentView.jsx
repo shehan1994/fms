@@ -30,10 +30,17 @@ export default function ApartmentView() {
     setApartment({ ...apartment, customer_id: selectedOption?.value || "" });
   };
 
+  const statusOptions = [
+    { value: 1, label: 'Active' },
+    { value: 2, label: 'Deactive' },
+    { value: 3, label: 'Terminate' },
+  ];
+
   const onSubmit = (ev) => {
     ev.preventDefault();
 
     const payload = { ...apartment };
+    console.log("apr payload",payload);
     delete payload.image_url;
     let res = null;
     if (id) {
@@ -82,7 +89,7 @@ export default function ApartmentView() {
         setCustomerOptions(
           response.data.map(customer => ({
             value: customer.id,
-            label: customer.first_name+ ' ' + customer.last_name,
+            label: customer.first_name + ' ' + customer.last_name,
           }))
         );
       }).catch((error) => {
@@ -210,7 +217,6 @@ export default function ApartmentView() {
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
-
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="status"
@@ -218,19 +224,15 @@ export default function ApartmentView() {
                   >
                     Status
                   </label>
-                  <input
-                    type="text"
-                    name="status"
-                    id="status"
-                    value={apartment.status}
-                    onChange={(ev) =>
-                      setApartment({ ...apartment, status: ev.target.value })
+                  <Select
+                    options={statusOptions}
+                    value={statusOptions.find(option => option.value === apartment.status)}
+                    onChange={(selectedOption) =>
+                      setApartment({ ...apartment, status: selectedOption.value })
                     }
-                    placeholder="Status"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full"
                   />
                 </div>
-
               </div>
               <div className="flex gap-2 justify-end px-4 py-3">
                 <TButton type="submit">Save</TButton>
