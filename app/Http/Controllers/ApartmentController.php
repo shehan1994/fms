@@ -98,7 +98,7 @@ class ApartmentController extends Controller
         $customerId = $request->query('customer');
 
         // Fetch apartment based on the search query
-        $apartments = $apartments = DB::table('apartments')
+        $apartments = DB::table('apartments')
         ->select('id', 'apt_no', 'address_01')
         ->where('customer_id', $customerId)
         ->where(function($query) use ($search) {
