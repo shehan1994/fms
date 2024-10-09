@@ -5,6 +5,9 @@ import axiosClient from "../axios.js";
 import TButton from "../components/core/TButton.jsx";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 
+import CardBarChart from "./../components/Cards/CardBarChart.jsx";
+import HeaderStats from "./../components/Cards/HeaderStats.jsx";
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
@@ -28,7 +31,11 @@ export default function Dashboard() {
     <PageComponent title="Dashboard">
       {loading && <div className="flex justify-center">Loading...</div>}
       {!loading && (
+
+        <>
+        <HeaderStats/>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700">
+          
           <DashboardCard
             title="Total Apartment"
             className="order-1 lg:order-2"
@@ -105,7 +112,7 @@ export default function Dashboard() {
             className="order-4 lg:order-3 row-span-2"
             style={{ animationDelay: '0.3s' }}
           >
-           
+
           </DashboardCard>
           <DashboardCard
             title="Employee Count"
@@ -125,7 +132,11 @@ export default function Dashboard() {
               {data.job_total}
             </div>
           </DashboardCard>
+          <CardBarChart />
+          
         </div>
+        </>
+        
       )}
     </PageComponent>
   );
