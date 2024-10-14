@@ -66,8 +66,8 @@ export default function JobCardView() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axiosClient.get(`/customer/${id}`).then(({ data }) => {
-        setCustomer(data.data);
+      axiosClient.get(`/job_card/${id}`).then(({ data }) => {
+        setJobCard(data.data);
         setLoading(false);
       });
     }

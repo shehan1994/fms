@@ -54,7 +54,7 @@ export default function DefaultLayout() {
   };
 
   const onJobCardClick = (ev) => {
-    navigate("/job_card/create");
+    navigate("/job_cards");
   };
 
   const userManage = (ev) => {

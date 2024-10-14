@@ -48,10 +48,10 @@ class ApartmentController extends Controller
      */
     public function show(Apartment $apartment, Request $request)
     {
-        $user = $request->user();
-        if($user->id !== $apartment->user_id){
-            return abort(403,"Unauthorized action");
-        }
+        // $user = $request->user();
+        // if($user->id !== $apartment->user_id){
+        //     return abort(403,"Unauthorized action");
+        // }
         return new ApartmentResource($apartment);
     }
 
