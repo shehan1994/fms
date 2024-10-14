@@ -26,5 +26,20 @@ class Job_card extends Model
         'payment_id',
     ];
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function apartment()
+    {
+        return $this->belongsTo(Apartment::class, 'apartment_id');
+    }
+
 
 }

@@ -16,7 +16,15 @@ class JobCardController extends Controller
      */
     public function index()
     {
-        //
+        $result = Job_card::with([
+            'customer:id,first_name,last_name',       // Load customer relationship
+            'employee:id,first_name,designation',     // Load employee relationship
+            'apartment:id,apt_no'                     // Load apartment relationship
+        ])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return JobCardResource::collection($result);
     }
 
     /**
@@ -50,7 +58,7 @@ class JobCardController extends Controller
      */
     public function show(Job_card $job_card)
     {
-        //
+        return new JobCardResource($job_card);
     }
 
     /**
@@ -73,7 +81,9 @@ class JobCardController extends Controller
      */
     public function update(Request $request, Job_card $job_card)
     {
-        //
+        $data = $request->validated();
+        $job_card->update($data);
+        return new JobCardResource($job_card);
     }
 
     /**
@@ -86,4 +96,6 @@ class JobCardController extends Controller
     {
         //
     }
+
+    
 }
