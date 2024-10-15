@@ -96,7 +96,6 @@ class CustomerController extends Controller
 
         // Fetch customers based on the search query
         $customers = Customer::where('first_name', 'like', '%' . $search . '%')
-            ->where('user_id', 1) // select only necessary fields
             ->select('id', 'first_name', 'last_name') // select only necessary fields
             ->get();
 

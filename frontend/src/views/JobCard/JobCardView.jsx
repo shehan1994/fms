@@ -40,7 +40,17 @@ export default function JobCardView() {
     delete payload.image_url;
     let res = null;
     if (id) {
-      res = axiosClient.put(`/job_card/${id}`, payload);
+      const editObject = {
+        "id": jobCard.id,
+        "assign_date": jobCard.assign_date,
+        "task": jobCard.task,
+        "customer_contact_no": jobCard.customer_contact_no,
+        "employee_id": selectedEmployee.value,
+        "customer_id": selectedCustomer.value,
+        "apartment_id": selectedApartment.value
+    }
+    console.log("job card",editObject);
+      res = axiosClient.put(`/job_card/${id}`, editObject);
     } else {
       res = axiosClient.post("/job_card", payload);
     }
@@ -68,6 +78,9 @@ export default function JobCardView() {
       setLoading(true);
       axiosClient.get(`/job_card/${id}`).then(({ data }) => {
         setJobCard(data.data);
+        setSelectedCustomer({label:data.data.customer.first_name, value:data.data.customer.id});
+        setSelectedApartment({label:data.data.apartment.apt_no, value:data.data.apartment.id});
+        setSelectedEmployee({label:data.data.employee.first_name, value:data.data.employee.id});
         setLoading(false);
       });
     }
@@ -75,6 +88,8 @@ export default function JobCardView() {
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption);
+    fetchApartments();
+    console.log("selected option",selectedOption);
     setJobCard({ ...jobCard, customer_id: selectedOption?.value || "" });
   };
 
@@ -123,6 +138,7 @@ export default function JobCardView() {
 
   const fetchApartments = (inputValue) => {
     if (inputValue) {
+      console.log("inputValue in ap",inputValue);
       console.log("cust value", selectedCustomer.value);
       axiosClient.get(`/apartments?customer=${selectedCustomer.value}&search=${inputValue}`).then((response) => {
         console.log("resp", response);

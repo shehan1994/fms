@@ -58,6 +58,7 @@ class JobCardController extends Controller
      */
     public function show(Job_card $job_card)
     {
+        $job_card->load('employee', 'customer', 'apartment');
         return new JobCardResource($job_card);
     }
 
@@ -81,8 +82,19 @@ class JobCardController extends Controller
      */
     public function update(Request $request, Job_card $job_card)
     {
-        $data = $request->validated();
-        $job_card->update($data);
+        $validatedData = $request->validate([
+            'assign_date' => 'required|date',
+            'task' => 'required|string',
+            'customer_contact_no' => 'required|string',
+            'employee_id' => 'required|integer',
+            'customer_id' => 'required|integer',
+            'apartment_id' => 'required|integer',
+        ]);
+    
+        // Update the job card with the validated data
+        $job_card->update($validatedData);
+    
+        // Return the updated job card resource
         return new JobCardResource($job_card);
     }
 

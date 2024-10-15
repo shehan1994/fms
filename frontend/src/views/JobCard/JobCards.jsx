@@ -122,6 +122,12 @@ export default function JobCards() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
+                      Assigned Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
                       Created By
                     </th>
                     <th
@@ -152,6 +158,9 @@ export default function JobCards() {
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.employee.first_name}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.assign_date}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.created_at}</p>
