@@ -40,7 +40,6 @@ export default function ApartmentView() {
     ev.preventDefault();
 
     const payload = { ...apartment };
-    console.log("apr payload",payload);
     delete payload.image_url;
     let res = null;
     if (id) {
@@ -51,7 +50,6 @@ export default function ApartmentView() {
 
     res
       .then((res) => {
-        console.log(res);
         navigate("/apartments");
         showToast(id ? "The apartment was updated" : "The apartment was created");
       })
@@ -59,7 +57,6 @@ export default function ApartmentView() {
         if (err && err.response) {
           setError(err.response.data.message);
         }
-        console.log(err, err.response);
       });
   };
 
@@ -83,7 +80,6 @@ export default function ApartmentView() {
 
 
   const fetchCustomers = (inputValue) => {
-    console.log("feching call", inputValue);
     if (inputValue) {
       axiosClient.get(`/customers?search=${inputValue}`).then((response) => {
         setCustomerOptions(

@@ -31,7 +31,6 @@ export default function JobCards() {
     url = url || "/job_card";
     setLoading(true);
     axiosClient.get(url).then(({ data }) => {
-      console.log("job data", data);
       setJobCards(data.data);
       setMeta(data.meta);
       setLoading(false);
@@ -58,7 +57,6 @@ export default function JobCards() {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
-  console.log("curr", currentRows);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

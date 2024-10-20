@@ -39,7 +39,6 @@ export default function JobView() {
 
     res
       .then((res) => {
-        console.log(res);
         navigate("/customers");
         if (id) {
           showToast("The customer was updated");
@@ -51,7 +50,6 @@ export default function JobView() {
         if (err && err.response) {
           setError(err.response.data.message);
         }
-        console.log(err, err.response);
       });
   };
 

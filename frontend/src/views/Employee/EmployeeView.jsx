@@ -50,7 +50,6 @@ export default function EmployeeView() {
 
     res
       .then((res) => {
-        console.log(res);
         navigate("/employees");
         showToast(id ? "The employee was updated" : "The employee was created");
       })
@@ -58,7 +57,6 @@ export default function EmployeeView() {
         if (err && err.response) {
           setError(err.response.data.message);
         }
-        console.log(err, err.response);
       });
   };
 

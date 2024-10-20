@@ -36,7 +36,6 @@ export default function JobCardView() {
     ev.preventDefault();
 
     const payload = { ...jobCard };
-    console.log("paylod", payload);
     delete payload.image_url;
     let res = null;
     if (id) {
@@ -49,14 +48,12 @@ export default function JobCardView() {
         "customer_id": selectedCustomer.value,
         "apartment_id": selectedApartment
       }
-      console.log("job card aa", editObject);
       res = axiosClient.put(`/job_card/${id}`, editObject);
     } else {
       res = axiosClient.post("/job_card", payload);
     }
     res
       .then((res) => {
-        console.log(res);
         navigate("/job_cards");
         showToast(id ? "The apartment was updated" : "The apartment was created");
         const message = "Hi this is from FMMS, Your Job card created successfully, One of our team member will contact you soon."
@@ -68,7 +65,6 @@ export default function JobCardView() {
         if (err && err.response) {
           setError(err.response.data.message);
         }
-        console.log(err, err.response);
       });
   };
 
@@ -96,12 +92,10 @@ export default function JobCardView() {
     if(selectedOption.value){
       fetchApartments(selectedOption.value);
     }
-    console.log("selected option", selectedOption);
     setJobCard({ ...jobCard, customer_id: selectedOption?.value || "" });
   };
 
   const handleApartmentChange = (event) => {
-    console.log("selectedOption of apartments",event.target.value);
 const aprtmentId = event.target.value
     setSelectedApartment(aprtmentId);
     setJobCard({ ...jobCard, apartment_id: aprtmentId || "" });
@@ -113,7 +107,6 @@ const aprtmentId = event.target.value
   };
 
   const fetchCustomers = (inputValue) => {
-    console.log("feching call", inputValue);
     if (inputValue) {
       axiosClient.get(`/customers?search=${inputValue}`).then((response) => {
         setCustomerOptions(
@@ -129,10 +122,8 @@ const aprtmentId = event.target.value
   };
 
   const fetchEmployees = (inputValue) => {
-    console.log("feching call", inputValue);
     if (inputValue) {
       axiosClient.get(`/employee?search=${inputValue}`).then((response) => {
-        console.log("after empo seach", response);
         setEmployeeOptions(
           response.data.data.map(employee => ({
             value: employee.id,
@@ -147,9 +138,7 @@ const aprtmentId = event.target.value
 
   const fetchApartments = (customerId) => {
     // if (inputValue) {
-      console.log("customerId", customerId);
       axiosClient.get(`/apartments/aprtmentsByCustomer?customer=${customerId}`).then((response) => {
-        console.log("resp", response);
         setApartmentOptions(
           response.data.map(apartment => ({
             value: apartment.id,
