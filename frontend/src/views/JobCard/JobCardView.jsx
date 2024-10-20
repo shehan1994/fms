@@ -47,9 +47,9 @@ export default function JobCardView() {
         "customer_contact_no": jobCard.customer_contact_no,
         "employee_id": selectedEmployee.value,
         "customer_id": selectedCustomer.value,
-        "apartment_id": selectedApartment.value
-    }
-    console.log("job card",editObject);
+        "apartment_id": selectedApartment
+      }
+      console.log("job card aa", editObject);
       res = axiosClient.put(`/job_card/${id}`, editObject);
     } else {
       res = axiosClient.post("/job_card", payload);
@@ -57,8 +57,12 @@ export default function JobCardView() {
     res
       .then((res) => {
         console.log(res);
-        navigate("/");
+        navigate("/job_cards");
         showToast(id ? "The apartment was updated" : "The apartment was created");
+        const message = "Hi this is from FMMS, Your Job card created successfully, One of our team member will contact you soon."
+        if (!id) {
+          sendSmS(jobCard.customer_contact_no, message);
+        }
       })
       .catch((err) => {
         if (err && err.response) {
@@ -78,9 +82,10 @@ export default function JobCardView() {
       setLoading(true);
       axiosClient.get(`/job_card/${id}`).then(({ data }) => {
         setJobCard(data.data);
-        setSelectedCustomer({label:data.data.customer.first_name, value:data.data.customer.id});
-        setSelectedApartment({label:data.data.apartment.apt_no, value:data.data.apartment.id});
-        setSelectedEmployee({label:data.data.employee.first_name, value:data.data.employee.id});
+        setSelectedCustomer({ label: data.data.customer.first_name, value: data.data.customer.id });
+        setSelectedApartment({ label: data.data.apartment.apt_no, value: data.data.apartment.id });
+        setSelectedEmployee({ label: data.data.employee.first_name, value: data.data.employee.id });
+        fetchApartments(data.data.customer?.id);
         setLoading(false);
       });
     }
@@ -88,14 +93,18 @@ export default function JobCardView() {
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption);
-    fetchApartments();
-    console.log("selected option",selectedOption);
+    if(selectedOption.value){
+      fetchApartments(selectedOption.value);
+    }
+    console.log("selected option", selectedOption);
     setJobCard({ ...jobCard, customer_id: selectedOption?.value || "" });
   };
 
-  const handleApartmentChange = (selectedOption) => {
-    setSelectedApartment(selectedOption);
-    setJobCard({ ...jobCard, apartment_id: selectedOption?.value || "" });
+  const handleApartmentChange = (event) => {
+    console.log("selectedOption of apartments",event.target.value);
+const aprtmentId = event.target.value
+    setSelectedApartment(aprtmentId);
+    setJobCard({ ...jobCard, apartment_id: aprtmentId || "" });
   };
 
   const handleEmployeeChange = (selectedOption) => {
@@ -136,11 +145,10 @@ export default function JobCardView() {
     }
   };
 
-  const fetchApartments = (inputValue) => {
-    if (inputValue) {
-      console.log("inputValue in ap",inputValue);
-      console.log("cust value", selectedCustomer.value);
-      axiosClient.get(`/apartments?customer=${selectedCustomer.value}&search=${inputValue}`).then((response) => {
+  const fetchApartments = (customerId) => {
+    // if (inputValue) {
+      console.log("customerId", customerId);
+      axiosClient.get(`/apartments/aprtmentsByCustomer?customer=${customerId}`).then((response) => {
         console.log("resp", response);
         setApartmentOptions(
           response.data.map(apartment => ({
@@ -151,19 +159,31 @@ export default function JobCardView() {
       }).catch((error) => {
         console.error('Error fetching customer options', error);
       });
-    }
+    // }
+  };
+
+  const sendSmS = (mobileNo, message) => {
+    axiosClient.get(`/sms?phoneNumber=${mobileNo}&message=${message}`).then((response) => {
+      console.log("resp", response);
+
+    }).catch((error) => {
+      console.error('Error fetching customer options', error);
+    });
   };
 
   return (
     <PageComponent
       title={!id ? "Create new Job Card" : "Edit Job Card"}
       buttons={
-        <div className="flex gap-2">
-          <TButton color="gray" onClick={onBackButton}>
-            <ChevronLeftIcon className="h-4 w-4 mr-2" />
-            Back
-          </TButton>
-        </div>
+
+        <>
+          <div className="flex gap-2">
+            <TButton color="gray" onClick={onBackButton}>
+              <ChevronLeftIcon className="h-4 w-4 mr-2" />
+              Back
+            </TButton>
+          </div>
+        </>
       }
     >
       {loading && <div className="text-center text-lg">Loading...</div>}
@@ -190,24 +210,28 @@ export default function JobCardView() {
                     options={customerOptions}
                     placeholder="Select a customer"
                     onInputChange={fetchCustomers}
+                    isDisabled={id}
                   />
                 </div>
-
                 <div className="col-span-6 sm:col-span-3">
                   <label
-                    htmlFor="apartment"
-                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="apartments"
+                    className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Apartment
+                    Apartments
                   </label>
-                  <Select
-                    id="apartment"
-                    value={selectedApartment}
-                    onChange={handleApartmentChange}
-                    options={apartmentOptions}
-                    placeholder="Select a Apartment"
-                    onInputChange={fetchApartments}
-                  />
+                  {apartmentOptions.map((option, index) => (
+                    <label key={index} className="mr-5 p-4">
+                      <input
+                        type="radio"
+                        name="apartments"
+                        value={option.value} 
+                        onChange={handleApartmentChange}
+                        className="mr-2"
+                      />
+                      {option.label}
+                    </label>
+                  ))}
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
