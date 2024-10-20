@@ -108,4 +108,22 @@ class ApartmentController extends Controller
         ->get();
         return response()->json($apartments);
     }
+    public function aprtmentsByCustomer(Request $request)
+    {
+        // Validate the request input
+        $request->validate([
+            'customer' => 'required|integer'
+        ]);
+
+        // Get the search query from the request
+        $search = $request->query('search');
+        $customerId = $request->query('customer');
+
+        // Fetch apartment based on the search query
+        $apartments = DB::table('apartments')
+        ->select('id', 'apt_no', 'address_01')
+        ->where('customer_id', $customerId)
+        ->get();
+        return response()->json($apartments);
+    }
 }
