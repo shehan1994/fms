@@ -162,7 +162,7 @@ const aprtmentId = event.target.value
 
   return (
     <PageComponent
-      title={!id ? "Create new Job Card" : "Edit Job Card"}
+      title={!id ? "Create New Job Card" : "Edit Job Card"}
       buttons={
 
         <>
