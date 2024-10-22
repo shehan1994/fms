@@ -168,7 +168,7 @@ export default function Employees() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.emp_code}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.level}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">Level 0{row.level}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.contact_no}</p>

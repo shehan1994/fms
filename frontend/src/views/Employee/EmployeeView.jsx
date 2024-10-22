@@ -69,17 +69,17 @@ export default function EmployeeView() {
       setLoading(true);
       axiosClient.get(`/employee/${id}`).then(({ data }) => {
         const employeeData = data.data;
-  
+
         // Format the dob and join_date to "yyyy-MM-dd" format
         employeeData.dob = formatDate(employeeData.dob);
         employeeData.join_date = formatDate(employeeData.join_date);
-  
+
         setEmployee(employeeData);
         setLoading(false);
       });
     }
   }, [id]);
-  
+
 
   return (
     <PageComponent
@@ -141,24 +141,25 @@ export default function EmployeeView() {
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="level"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label htmlFor="level" className="block text-sm font-medium text-gray-700">
                     Level
                   </label>
-                  <input
-                    type="text"
-                    name="level"
-                    id="level"
-                    value={employee.level}
-                    onChange={(ev) =>
-                      setEmployee({ ...employee, level: ev.target.value })
+                  <Select
+                    options={[
+                      { value: "1", label: 'Level 1' },
+                      { value: "2", label: 'Level 2' },
+                      { value: '3', label: 'Level 3' },
+                      { value: "4", label: 'Level 4' },
+                      { value: "5", label: 'Level 5' },
+                    ]}
+                    value={employee.level ? { value: employee.level, label: `Level ${employee.level}` } : null}
+                    onChange={(selectedOption) =>
+                      setEmployee({ ...employee, level: selectedOption.value })
                     }
-                    placeholder="Level"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full"
                   />
                 </div>
+
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="contact_no"
