@@ -70,7 +70,7 @@ export default function CustomerView() {
 
   return (
     <PageComponent
-      title={!id ? "Create new Customer" : "Edit Customer"}
+      title={!id ? "Create New Customer" : "Edit Customer"}
       buttons={
         <div className="flex gap-2">
           <TButton color="gray" onClick={onBackButton}>

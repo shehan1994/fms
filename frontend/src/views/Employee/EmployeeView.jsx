@@ -83,7 +83,7 @@ export default function EmployeeView() {
 
   return (
     <PageComponent
-      title={!id ? "Create new Employee" : "Edit Employee"}
+      title={!id ? "Create New Employee" : "Edit Employee"}
       buttons={
         <div className="flex gap-2">
           <TButton color="gray" onClick={onBackButton}>

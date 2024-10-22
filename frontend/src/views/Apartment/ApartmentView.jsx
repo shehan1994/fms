@@ -97,7 +97,7 @@ export default function ApartmentView() {
 
   return (
     <PageComponent
-      title={!id ? "Create new Apartment" : "Edit Apartment"}
+      title={!id ? "Create New Apartment" : "Edit Apartment"}
       buttons={
         <div className="flex gap-2">
           <TButton color="gray" onClick={onBackButton}>
@@ -131,26 +131,6 @@ export default function ApartmentView() {
                     options={customerOptions}
                     placeholder="Select a customer"
                     onInputChange={fetchCustomers}  // Fetch new customer options based on search input
-                  />
-                </div>
-
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="apt_no"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Apartment No
-                  </label>
-                  <input
-                    type="text"
-                    name="apt_no"
-                    id="apt_no"
-                    value={apartment.apt_no}
-                    onChange={(ev) =>
-                      setApartment({ ...apartment, apt_no: ev.target.value })
-                    }
-                    placeholder="Apartment No"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
 

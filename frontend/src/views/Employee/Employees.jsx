@@ -54,7 +54,7 @@ export default function Employees() {
       buttons={
         <TButton color="green" to="/employees/create">
           <PlusCircleIcon className="h-6 w-6 mr-2" />
-          Create new
+          Create New
         </TButton>
       }
     >

@@ -66,7 +66,7 @@ export default function Jobs() {
       buttons={
         <TButton color="green" to="/customers/create">
           <PlusCircleIcon className="h-6 w-6 mr-2"/>
-          Create new
+          Create New
         </TButton>
       }
     >

@@ -66,7 +66,7 @@ export default function JobCards() {
       buttons={
         <TButton color="green" to="/job_card/create">
           <PlusCircleIcon className="h-6 w-6 mr-2" />
-          Create new
+          Create New
         </TButton>
       }
     >
