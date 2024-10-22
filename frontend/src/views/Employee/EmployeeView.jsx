@@ -16,6 +16,7 @@ export default function EmployeeView() {
     address_01: "",
     address_02: "",
     city: "",
+    nic: "",
     status: "", // Ensure status is still in the employee state
   });
 
@@ -214,6 +215,25 @@ export default function EmployeeView() {
                       setEmployee({ ...employee, email: ev.target.value })
                     }
                     placeholder="Email"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <label
+                    htmlFor="nic"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    NIC
+                  </label>
+                  <input
+                    type="text"
+                    name="nic"
+                    id="nic"
+                    value={employee.nic}
+                    onChange={(ev) =>
+                      setEmployee({ ...employee, nic: ev.target.value })
+                    }
+                    placeholder="NIC"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>

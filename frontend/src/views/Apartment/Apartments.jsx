@@ -51,7 +51,7 @@ export default function Apartments() {
   };
 
   const filteredData = (apartments || []).filter((item) =>
-    item.address_01.toLowerCase().includes(searchTerm.toLowerCase())
+    item.customer.first_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastRow = currentPage * rowsPerPage;

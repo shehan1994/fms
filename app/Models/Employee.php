@@ -23,6 +23,7 @@ class Employee extends Model
         'terminate_date',
         'designation',
         'email',
+        'nic',
         'status',
         'age',
         'dob',

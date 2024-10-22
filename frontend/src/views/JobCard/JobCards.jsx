@@ -44,6 +44,7 @@ export default function JobCards() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
+  const searchTermLower = searchTerm.toLowerCase();
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -51,8 +52,9 @@ export default function JobCards() {
   };
 
   const filteredData = jobCards.filter((item) =>
-    item.employee && item.customer && item.customer.first_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    (item.customer.first_name.toLowerCase().includes(searchTermLower) || 
+   (item.apartment && item.apartment.apt_no && item.apartment.apt_no.toString().toLowerCase().includes(searchTermLower)))
+);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;

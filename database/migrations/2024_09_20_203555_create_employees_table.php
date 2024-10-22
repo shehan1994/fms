@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('terminate_date')->nullable(); 
             $table->string('designation')->nullable();
             $table->string('email')->unique(); 
+            $table->string('nic',255);
             $table->integer('status')->nullable();
             $table->integer('age')->nullable();
             $table->date('dob')->nullable(); 
