@@ -33,7 +33,6 @@ class StoreApartmentRequest extends FormRequest
         return [
             'customer_id'=>'exists:customers,id',
             'user_id'=>'exists:users,id',
-            'apt_no'=>'required|string|max:100',
             'address_01'=>'required|string',
             'address_02'=>'nullable|string',
             'city'=>'nullable|string',

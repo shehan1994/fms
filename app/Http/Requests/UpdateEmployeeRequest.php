@@ -31,11 +31,10 @@ class UpdateEmployeeRequest extends FormRequest
             'contact_no' => 'required|string|max:15',
             'terminate_date' => 'nullable|date',
             'designation' => 'required|string|max:100',
-            'email' => 'required|email|unique:employees,email,' . $this->route('employee')->id,
+            'email' => 'nullable|email|unique:employees,email,' . $this->route('employee')->id,
             'status' => 'required|integer',
             'age' => 'required|integer|min:18|max:65', // Adjust age limits as needed
             'dob' => 'required|date',
-            'emp_code' => 'required|string|max:50|unique:employees,emp_code,' . $this->route('employee')->id,
             'join_date' => 'required|date',
         ];
     }

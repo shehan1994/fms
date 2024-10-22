@@ -32,7 +32,7 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'user_id'=>'exists:users,id',
-            'passport_no'=>'required|string|max:100',
+            'passport_no'=>'nullable|string|max:100',
             'nic'=>'required|string',
             'first_name'=>'required|string',
             'last_name'=>'nullable|string',

@@ -37,7 +37,7 @@ class StoreEmployeeRequest extends FormRequest
             'contact_no' => 'required|string|max:15',
             'terminate_date' => 'nullable|date',
             'designation' => 'required|string|max:100',
-            'email' => 'required|email|unique:employees,email',
+            'email' => 'nullable|email|unique:employees,email',
             'status' => 'required|integer',
             'age' => 'required|integer|min:18|max:65', // Adjust age limits as needed
             'dob' => 'required|date',

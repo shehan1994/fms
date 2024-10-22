@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class,'user_id');
             $table->string('first_name',255);
             $table->string('last_name',255);
-            $table->string('passport_no',255);
+            $table->string('passport_no',255)->nullable();
             $table->string('nic',255);
-            $table->string('email',255);
-            $table->timestamp('dob')->nullable();
+            $table->string('email',255)->nullable();
+            $table->timestamp('dob')->nullable()->nullable();
             $table->timestamps();
         });
     }

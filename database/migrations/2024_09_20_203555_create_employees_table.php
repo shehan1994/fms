@@ -21,13 +21,13 @@ return new class extends Migration
             $table->string('contact_no')->nullable();
             $table->string('password')->nullable(); 
             $table->date('terminate_date')->nullable(); 
-            $table->string('designation');
+            $table->string('designation')->nullable();
             $table->string('email')->unique(); 
-            $table->integer('status');
-            $table->integer('age');
-            $table->date('dob'); 
+            $table->integer('status')->nullable();
+            $table->integer('age')->nullable();
+            $table->date('dob')->nullable(); 
             $table->string('emp_code')->unique(); 
-            $table->date('join_date'); 
+            $table->date('join_date')->nullable(); 
             $table->timestamps();
         });
     }
