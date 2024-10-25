@@ -32,10 +32,9 @@ class StoreJobCardRequest extends FormRequest
     {
         return [
             'assign_date' => 'nullable|date',
-            'user_id'=>'exists:users,id',
+            'user_id'=>'required|exists:users,id',
             'task' => 'nullable|string|max:255',
-            'customer_contact_no' => 'required|string|max:10', 
-            'employee_id' => 'required|exists:employees,id', 
+            'customer_contact_no' => 'required|string|max:10',
             'customer_id' => 'required|exists:customers,id', 
             'apartment_id' => 'required|exists:apartments,id'
         ];

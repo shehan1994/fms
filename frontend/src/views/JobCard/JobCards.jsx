@@ -50,11 +50,10 @@ export default function JobCards() {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
-
   const filteredData = jobCards.filter((item) =>
-    (item.customer.first_name.toLowerCase().includes(searchTermLower) || 
-   (item.apartment && item.apartment.apt_no && item.apartment.apt_no.toString().toLowerCase().includes(searchTermLower)))
-);
+  (item.customer.first_name.toLowerCase().includes(searchTermLower) ||
+    (item.apartment && item.apartment.apt_no && item.apartment.apt_no.toString().toLowerCase().includes(searchTermLower)))
+  );
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -154,19 +153,19 @@ export default function JobCards() {
                   {currentRows.map((row) => (
                     <tr key={row.id}>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.customer.first_name} {row.customer.last_name}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.customer?.first_name} {row.customer.last_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.apartment.apt_no}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.apartment?.apt_no}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.task}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.employee.first_name}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.first_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.employee.designation}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.designation}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.assign_date}</p>

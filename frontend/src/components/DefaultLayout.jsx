@@ -27,6 +27,8 @@ export default function DefaultLayout() {
   const navigate = useNavigate();
   const { currentUser, userToken, setCurrentUser, showToast } = useStateContext();
 
+  console.log("currentUser",currentUser);
+
   if (!userToken) {
     return <Navigate to="login" />;
   }
@@ -114,6 +116,13 @@ export default function DefaultLayout() {
                     </div>
                   </div>
                 </div>
+                <div className="flex items-center px-5">
+                  <div className="ml-3">
+                    <div className="text-sm font-medium leading-none text-gray-400">
+                      {currentUser ? currentUser.email : ""}
+                    </div>
+                  </div>
+                </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
                     <Menu as="div" className="relative ml-3">
@@ -130,7 +139,10 @@ export default function DefaultLayout() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
+                        
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          
+                      
                           <Menu.Item>
                             <a href="#" onClick={logout} className="block px-4 py-2 text-sm text-gray-700">Sign out</a>
                           </Menu.Item>
@@ -177,7 +189,7 @@ export default function DefaultLayout() {
               <div className="border-t border-gray-700 pt-4 pb-3">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" />
+                    {/* <UserIcon className="w-8 h-8 bg-black/25 p-2 rounded-full text-white" /> */}
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">

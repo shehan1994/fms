@@ -5,8 +5,6 @@ import { setUserToken } from '../redux/slices/authSlice'; // Assume this action 
 const StateContext = createContext({
   currentUser: {},
   userToken: null,
-  surveys: [],
-  questionTypes: [],
   toast: {
     message: null,
     show: false,
@@ -22,8 +20,6 @@ const tmpSurveys = [
 export const ContextProvider = ({ children }) => {
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [surveys, setSurveys] = useState(tmpSurveys);
-  const [questionTypes] = useState(['text', "select", "radio", "checkbox", "textarea"]);
   const [toast, setToast] = useState({
     message: "",
     icon: "success",
@@ -51,8 +47,6 @@ export const ContextProvider = ({ children }) => {
         setCurrentUser,
         userToken: token,
         setUserToken: (token) => dispatch(setUserToken(token)),
-        surveys,
-        questionTypes,
         toast,
         showToast,
       }}

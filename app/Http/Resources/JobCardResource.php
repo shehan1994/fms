@@ -28,10 +28,9 @@ class JobCardResource extends JsonResource
             'total_amount' => $this->total_amount,
             'remark' => $this->remark,
             'customer_contact_no' => $this->customer_contact_no,
-            'employee' => new EmployeeResource($this->whenLoaded('employee')), // load employee data
+            'user' => new UserResource($this->whenLoaded('user')), // load user data
             'customer' => new CustomerResource($this->whenLoaded('customer')), // load customer data
-            'apartment' => new ApartmentResource($this->whenLoaded('apartment')), // load apartment data
-            'user_id' => $this->user_id,
+            'apartment' => new ApartmentResource($this->whenLoaded('apartment')), 
             'payment_id' => $this->payment_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

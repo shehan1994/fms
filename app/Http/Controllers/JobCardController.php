@@ -18,7 +18,7 @@ class JobCardController extends Controller
     {
         $result = Job_card::with([
             'customer:id,first_name,last_name',       // Load customer relationship
-            'employee:id,first_name,designation',     // Load employee relationship
+            'user:id,first_name,designation',     // Load employee relationship
             'apartment:id,apt_no'                     // Load apartment relationship
         ])
         ->orderBy('created_at', 'desc')
@@ -58,7 +58,7 @@ class JobCardController extends Controller
      */
     public function show(Job_card $job_card)
     {
-        $job_card->load('employee', 'customer', 'apartment');
+        $job_card->load('user', 'customer', 'apartment');
         return new JobCardResource($job_card);
     }
 
@@ -86,7 +86,7 @@ class JobCardController extends Controller
             'assign_date' => 'required|date',
             'task' => 'required|string',
             'customer_contact_no' => 'required|string',
-            'employee_id' => 'required|integer',
+            'user_id' => 'required|integer',
             'customer_id' => 'required|integer',
             'apartment_id' => 'required|integer',
         ]);

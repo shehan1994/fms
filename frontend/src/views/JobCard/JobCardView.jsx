@@ -17,7 +17,7 @@ export default function JobCardView() {
   const [jobCard, setJobCard] = useState({
     customer_id: "",
     apartment_id: "",
-    employee_id: "",
+    user_id: "",
     task: "",
     assign_date: "",
     customer_contact_no: "",
@@ -44,7 +44,7 @@ export default function JobCardView() {
         "assign_date": jobCard.assign_date,
         "task": jobCard.task,
         "customer_contact_no": jobCard.customer_contact_no,
-        "employee_id": selectedEmployee.value,
+        "user_id": selectedEmployee.value,
         "customer_id": selectedCustomer.value,
         "apartment_id": selectedApartment
       }
@@ -55,7 +55,7 @@ export default function JobCardView() {
     res
       .then((res) => {
         navigate("/job_cards");
-        showToast(id ? "The apartment was updated" : "The apartment was created");
+        showToast(id ? "The Job card was updated" : "The Job card was created");
         const message = "Hi this is from FMMS, Your Job card created successfully, One of our team member will contact you soon."
         if (!id) {
           sendSmS(jobCard.customer_contact_no, message);
@@ -80,7 +80,7 @@ export default function JobCardView() {
         setJobCard(data.data);
         setSelectedCustomer({ label: data.data.customer.first_name, value: data.data.customer.id });
         setSelectedApartment({ label: data.data.apartment.apt_no, value: data.data.apartment.id });
-        setSelectedEmployee({ label: data.data.employee.first_name, value: data.data.employee.id });
+        setSelectedEmployee({ label: data.data.user.first_name, value: data.data.user.id });
         fetchApartments(data.data.customer?.id);
         setLoading(false);
       });
@@ -103,7 +103,7 @@ const aprtmentId = event.target.value
 
   const handleEmployeeChange = (selectedOption) => {
     setSelectedEmployee(selectedOption);
-    setJobCard({ ...jobCard, employee_id: selectedOption?.value || "" });
+    setJobCard({ ...jobCard, user_id: selectedOption?.value || "" });
   };
 
   const fetchCustomers = (inputValue) => {
@@ -123,9 +123,9 @@ const aprtmentId = event.target.value
 
   const fetchEmployees = (inputValue) => {
     if (inputValue) {
-      axiosClient.get(`/employee?search=${inputValue}`).then((response) => {
+      axiosClient.get(`/users?searchEngineers=${inputValue}`).then((response) => {
         setEmployeeOptions(
-          response.data.data.map(employee => ({
+          response.data.map(employee => ({
             value: employee.id,
             label: employee.first_name + ' ' + employee.last_name + '-' + employee.designation,
           }))

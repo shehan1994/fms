@@ -24,7 +24,6 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2)->nullable();
             $table->text('remark')->nullable(); 
             $table->string('customer_contact_no'); 
-            $table->unsignedBigInteger('employee_id'); 
             $table->unsignedBigInteger('user_id'); 
             $table->unsignedBigInteger('customer_id'); 
             $table->unsignedBigInteger('apartment_id'); 

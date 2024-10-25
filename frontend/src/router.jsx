@@ -14,6 +14,7 @@ import Jobs from "./views/Job/Jobs.jsx";
 import JobView from "./views/Job/JobView.jsx";
 import Users from "./views/Users/Users.jsx";
 import UserView from "./views/Users/UserView.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       {
-        path: '/dashboard',
+        path: "/dashboard",
         element: <Navigate to="/" />
       },
       {
@@ -30,63 +31,63 @@ const router = createBrowserRouter([
       },
       {
         path: "/apartments",
-        element: <Apartments />,
+        element: <ProtectedRoute requiredLevel={2}><Apartments /></ProtectedRoute>, // Level 1 & 2 access
       },
       {
         path: "/apartments/create",
-        element: <ApartmentView />,
+        element: <ProtectedRoute requiredLevel={1}><ApartmentView /></ProtectedRoute>, // Level 1 can create
       },
       {
         path: "/apartments/:id",
-        element: <ApartmentView />,
+        element: <ProtectedRoute requiredLevel={1}><ApartmentView /></ProtectedRoute>, // Level 1 can view/edit
       },
       {
         path: "/users",
-        element: <Users />,
+        element: <ProtectedRoute requiredLevel={1}><Users /></ProtectedRoute>, // Only Level 1 (super user) can access
       },
       {
         path: "/users/create",
-        element: <UserView />,
+        element: <ProtectedRoute requiredLevel={1}><UserView /></ProtectedRoute>, // Only Level 1 can create users
       },
       {
         path: "/users/:id",
-        element: <UserView />,
+        element: <ProtectedRoute requiredLevel={1}><UserView /></ProtectedRoute>,
       },
       {
         path: "/customers",
-        element: <Customers />,
+        element: <ProtectedRoute requiredLevel={2}><Customers /></ProtectedRoute>, // Level 1 & 2 access
       },
       {
         path: "/customers/create",
-        element: <CustomerView />,
+        element: <ProtectedRoute requiredLevel={2}><CustomerView /></ProtectedRoute>, // Level 1 & 2 can create
       },
       {
         path: "/customers/:id",
-        element: <CustomerView />,
+        element: <ProtectedRoute requiredLevel={2}><CustomerView /></ProtectedRoute>, // Level 1 & 2 can view/edit
       },
       {
         path: "/job_cards",
-        element: <JobCards />,
+        element: <ProtectedRoute requiredLevel={3}><JobCards /></ProtectedRoute>, // Level 1, 2 & 3 access
       },
       {
         path: "/job_card/create",
-        element: <JobCardView />,
+        element: <ProtectedRoute requiredLevel={2}><JobCardView /></ProtectedRoute>, // Level 1 & 2 can create
       },
       {
         path: "/job_card/:id",
-        element: <JobCardView />,
+        element: <ProtectedRoute requiredLevel={2}><JobCardView /></ProtectedRoute>, // Level 1 & 2 can view/edit
       },
       {
         path: "/jobs",
-        element: <Jobs />,
+        element: <ProtectedRoute requiredLevel={3}><Jobs /></ProtectedRoute>, // Level 1, 2 & 3 access
       },
       {
         path: "/job/create",
-        element: <JobView />,
+        element: <ProtectedRoute requiredLevel={2}><JobView /></ProtectedRoute>, // Level 1 & 2 can create
       },
       {
         path: "/job/:id",
-        element: <JobView />,
+        element: <ProtectedRoute requiredLevel={3}><JobView /></ProtectedRoute>, // Level 1, 2 & 3 can view/edit
       }
     ],
   },

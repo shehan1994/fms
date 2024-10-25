@@ -19,7 +19,6 @@ class Job_card extends Model
         'total_amount',
         'remark',
         'customer_contact_no',
-        'employee_id',
         'user_id',
         'customer_id',
         'apartment_id',
@@ -31,9 +30,9 @@ class Job_card extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function employee()
+    public function user()
     {
-        return $this->belongsTo(Employee::class, 'employee_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function apartment()

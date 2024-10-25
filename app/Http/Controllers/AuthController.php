@@ -93,4 +93,18 @@ class AuthController extends Controller
     {
         return $request->user();
     }
+
+    public function searchEngineers(Request $request)
+    {
+        $request->validate([
+            'searchEngineers' => 'required|string|min:1'
+        ]);
+        $search = $request->query('search');
+        $engineers = User::where('first_name', 'like', '%' . $search . '%')
+            ->where('level', 3) // Add this line to filter by level
+            ->select('id', 'first_name', 'last_name', 'designation', 'level') 
+            ->get();
+        return response()->json($engineers);
+    }
+
 }
