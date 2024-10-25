@@ -6,6 +6,7 @@ use App\Http\Requests\StoreJobCardRequest;
 use App\Http\Resources\JobCardResource;
 use App\Models\Job_card;
 use Illuminate\Http\Request;
+use Log;
 
 class JobCardController extends Controller
 {
@@ -14,18 +15,33 @@ class JobCardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $result = Job_card::with([
-            'customer:id,first_name,last_name',       // Load customer relationship
-            'user:id,first_name,designation',     // Load employee relationship
-            'apartment:id,apt_no'                     // Load apartment relationship
-        ])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        $user = $request->user();
+        if ($user->level == 1 || $user->level == 2) {
+            // Level 1 and 2 users can see all job cards
+            $result = Job_card::with([
+                'customer:id,first_name,last_name',       // Load customer relationship
+                'user:id,first_name,designation',         // Load employee relationship
+                'apartment:id,apt_no'                      // Load apartment relationship
+            ])
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            // Other users can only see their assigned job cards
+            $result = Job_card::with([
+                'customer:id,first_name,last_name',
+                'user:id,first_name,designation',
+                'apartment:id,apt_no'
+            ])
+                ->where('user_id', $user->id) // Filter by assigned user ID
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
 
-    return JobCardResource::collection($result);
+        return JobCardResource::collection($result);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,8 +61,10 @@ class JobCardController extends Controller
      */
     public function store(StoreJobCardRequest $request)
     {
-        $data=$request->validated();
+        $data = $request->validated();
+        Log::info($data);
         $jobCard = Job_card::create($data);
+        // Log::info($jobCard);
         return new JobCardResource($jobCard);
     }
 
@@ -90,10 +108,10 @@ class JobCardController extends Controller
             'customer_id' => 'required|integer',
             'apartment_id' => 'required|integer',
         ]);
-    
+
         // Update the job card with the validated data
         $job_card->update($validatedData);
-    
+
         // Return the updated job card resource
         return new JobCardResource($job_card);
     }
@@ -109,5 +127,5 @@ class JobCardController extends Controller
         //
     }
 
-    
+
 }

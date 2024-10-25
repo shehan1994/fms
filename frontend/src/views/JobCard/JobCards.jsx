@@ -7,12 +7,14 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import { Link } from "react-router-dom";
 
 import "./styles.css"; // Import your styles
+import { useSelector } from "react-redux";
 
 export default function JobCards() {
   const { showToast } = useStateContext();
   const [jobCards, setJobCards] = useState([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   // const onDeleteClick = (id) => {
   //   if (window.confirm("Are you sure you want to delete this customer?")) {
@@ -30,7 +32,8 @@ export default function JobCards() {
   const getJobCards = (url) => {
     url = url || "/job_card";
     setLoading(true);
-    axiosClient.get(url).then(({ data }) => {
+    const params = user.id ? { user_id: user.id } : {};
+    axiosClient.get(url, { params }).then(({ data }) => {
       setJobCards(data.data);
       setMeta(data.meta);
       setLoading(false);
@@ -65,10 +68,14 @@ export default function JobCards() {
     <PageComponent
       title="Job Cards"
       buttons={
-        <TButton color="green" to="/job_card/create">
-          <PlusCircleIcon className="h-6 w-6 mr-2" />
-          Create New
-        </TButton>
+        <>
+          {user.level !== "1" || user.level !== "2" &&
+            <TButton color="green" to="/job_card/create">
+              <PlusCircleIcon className="h-6 w-6 mr-2" />
+              Create New
+            </TButton>
+          }
+        </>
       }
     >
       {loading && <div className="text-center text-lg">Loading...</div>}

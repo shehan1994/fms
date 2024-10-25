@@ -16,12 +16,12 @@ class StoreJobCardRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'user_id' => $this->user()->id
-        ]);
-    }
+    // protected function prepareForValidation()
+    // {
+    //     $this->merge([
+    //         'user_id' => $this->user()->id
+    //     ]);
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -32,9 +32,9 @@ class StoreJobCardRequest extends FormRequest
     {
         return [
             'assign_date' => 'nullable|date',
-            'user_id'=>'required|exists:users,id',
             'task' => 'nullable|string|max:255',
             'customer_contact_no' => 'required|string|max:10',
+            'user_id'=>'required',
             'customer_id' => 'required|exists:customers,id', 
             'apartment_id' => 'required|exists:apartments,id'
         ];
