@@ -40,8 +40,6 @@ class StoreEmployeeRequest extends FormRequest
             'email' => 'nullable|email|unique:employees,email',
             'nic'=>'required|string|max:12',
             'status' => 'required|integer',
-            'age' => 'required|integer|min:18|max:65', // Adjust age limits as needed
-            'dob' => 'required|date|before_or_equal:' . now()->subYears(18)->toDateString(),
             'join_date' => 'required|date|before_or_equal:today',
         ];
     }

@@ -8,24 +8,24 @@ import { Link } from "react-router-dom";
 
 import "./styles.css"; // Import your styles
 
-export default function Employees() {
+export default function Users() {
   const { showToast } = useStateContext();
-  const [employees, setEmployees] = useState([]);
+  const [users, setUsers] = useState([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const getEmployees = (url) => {
-    url = url || "/employee";
+  const getUsers = (url) => {
+    url = url || "/user";
     setLoading(true);
     axiosClient.get(url).then(({ data }) => {
-      setEmployees(data.data);
+      setUsers(data.data);
       setMeta(data.meta);
       setLoading(false);
     });
   };
 
   useEffect(() => {
-    getEmployees();
+    getUsers();
   }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,7 +37,7 @@ export default function Employees() {
     setCurrentPage(1);
   };
 
-  const filteredData = (employees || []).filter((item) =>
+  const filteredData = (users || []).filter((item) =>
     [item.first_name, item.last_name, item.address_01, item.city]
       .some(field => field?.toLowerCase().includes(searchTerm.toLowerCase()))
   );
@@ -50,9 +50,9 @@ export default function Employees() {
 
   return (
     <PageComponent
-      title="Employees"
+      title="Users | Employees"
       buttons={
-        <TButton color="green" to="/employees/create">
+        <TButton color="green" to="/users/create">
           <PlusCircleIcon className="h-6 w-6 mr-2" />
           Create New
         </TButton>
@@ -132,18 +132,6 @@ export default function Employees() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
-                      Age
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                    >
-                      DOB
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
-                    >
                       Join Date
                     </th>
                     <th
@@ -171,7 +159,7 @@ export default function Employees() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.last_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.emp_code}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user_code}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">Level 0{row.level}</p>
@@ -189,12 +177,6 @@ export default function Employees() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.nic}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.age}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.dob}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.join_date}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -210,7 +192,7 @@ export default function Employees() {
                         </p></td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <Link
-                          to={`/employees/${row.id}`}
+                          to={`/users/${row.id}`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           Edit

@@ -25,13 +25,20 @@ class SignupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
             'email' => 'required|email|string|unique:users,email',
             'password' => [
                 'required',
                 'confirmed',
                 Password::min(8)->mixedCase()->numbers()->symbols()
-            ]
+            ],
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'level' => 'required|string|max:100',
+            'contact_no' => 'required|string|max:10',
+            'designation' => 'required|string|max:100',
+            'nic'=>'required|string|max:12',
+            'status' => 'required|integer',
+            'join_date' => 'required|date|before_or_equal:today',
         ];
     }
 }

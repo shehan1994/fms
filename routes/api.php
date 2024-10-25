@@ -21,16 +21,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::apiResource('customer',\App\Http\Controllers\CustomerController::class);
     Route::apiResource('apartment',\App\Http\Controllers\ApartmentController::class);
-    Route::apiResource('employee',\App\Http\Controllers\EmployeeController::class);
+    Route::apiResource('user',\App\Http\Controllers\AuthController::class);
     Route::apiResource('job_card',\App\Http\Controllers\JobCardController::class);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/customers', [\App\Http\Controllers\CustomerController::class, 'search']);
     Route::get('/apartments', [\App\Http\Controllers\ApartmentController::class, 'search']);
     Route::get('/apartments/aprtmentsByCustomer', [\App\Http\Controllers\ApartmentController::class, 'aprtmentsByCustomer']);
-    Route::get('/employees', [\App\Http\Controllers\EmployeeController::class, 'search']);
+    Route::get('/users', [\App\Http\Controllers\EmployeeController::class, 'search']);
     Route::get('/sms', [\App\Http\Controllers\SMSController::class, 'sendSMS']);
-    // Route::get('/job_card', [\App\Http\Controllers\JobCardController::class, 'search']);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);

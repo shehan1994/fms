@@ -14,7 +14,7 @@ import Toast from "./Toast";
 const navigation = [
   { name: "Dashboard", to: "/" },
   { name: "Apartments", to: "/apartments" },
-  { name: "Employees", to: "/employees" },
+  { name: "Employees", to: "/users" },
   { name: "Customers", to: "/customers" },
 ];
 

@@ -7,17 +7,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.jsx";
 import Select from 'react-select';
 
-export default function EmployeeView() {
+export default function UserView() {
   const { showToast } = useStateContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [employee, setEmployee] = useState({
+  const [user, setUser] = useState({
     address_01: "",
     address_02: "",
     city: "",
     nic: "",
-    status: "", // Ensure status is still in the employee state
+    status: "", // Ensure status is still in the User state
   });
 
   const [loading, setLoading] = useState(false);
@@ -40,18 +40,18 @@ export default function EmployeeView() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    const payload = { ...employee };
+    const payload = { ...user };
     delete payload.image_url;
     let res = null;
     if (id) {
-      res = axiosClient.put(`/employee/${id}`, payload);
+      res = axiosClient.put(`/user/${id}`, payload);
     } else {
-      res = axiosClient.post("/employee", payload);
+      res = axiosClient.post("/user", payload);
     }
 
     res
       .then((res) => {
-        navigate("/employees");
+        navigate("/users");
         showToast(id ? "The employee was updated" : "The employee was created");
       })
       .catch((err) => {
@@ -62,20 +62,16 @@ export default function EmployeeView() {
   };
 
   const onBackButton = () => {
-    navigate("/employees");
+    navigate("/users");
   }
 
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axiosClient.get(`/employee/${id}`).then(({ data }) => {
-        const employeeData = data.data;
-
-        // Format the dob and join_date to "yyyy-MM-dd" format
-        employeeData.dob = formatDate(employeeData.dob);
-        employeeData.join_date = formatDate(employeeData.join_date);
-
-        setEmployee(employeeData);
+      axiosClient.get(`/user/${id}`).then(({ data }) => {
+        const userData = data.data;
+        userData.join_date = formatDate(userData.join_date);
+        setUser(userData);
         setLoading(false);
       });
     }
@@ -114,9 +110,9 @@ export default function EmployeeView() {
                     type="text"
                     name="first_name"
                     id="first_name"
-                    value={employee.first_name}
+                    value={user.first_name}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, first_name: ev.target.value })
+                      setUser({ ...user, first_name: ev.target.value })
                     }
                     placeholder="First Name"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -133,9 +129,9 @@ export default function EmployeeView() {
                     type="text"
                     name="last_name"
                     id="last_name"
-                    value={employee.last_name}
+                    value={user.last_name}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, last_name: ev.target.value })
+                      setUser({ ...user, last_name: ev.target.value })
                     }
                     placeholder="Last Name"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -153,9 +149,9 @@ export default function EmployeeView() {
                       { value: "4", label: 'Level 4' },
                       { value: "5", label: 'Level 5' },
                     ]}
-                    value={employee.level ? { value: employee.level, label: `Level ${employee.level}` } : null}
+                    value={user.level ? { value: user.level, label: `Level ${user.level}` } : null}
                     onChange={(selectedOption) =>
-                      setEmployee({ ...employee, level: selectedOption.value })
+                      setUser({ ...user, level: selectedOption.value })
                     }
                     className="mt-1 block w-full"
                   />
@@ -172,9 +168,9 @@ export default function EmployeeView() {
                     type="text"
                     name="contact_no"
                     id="contact_no"
-                    value={employee.contact_no}
+                    value={user.contact_no}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, contact_no: ev.target.value })
+                      setUser({ ...user, contact_no: ev.target.value })
                     }
                     placeholder="Contact No"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -191,9 +187,9 @@ export default function EmployeeView() {
                     type="text"
                     name="designation"
                     id="designation"
-                    value={employee.designation}
+                    value={user.designation}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, designation: ev.target.value })
+                      setUser({ ...user, designation: ev.target.value })
                     }
                     placeholder="Designation"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -210,9 +206,9 @@ export default function EmployeeView() {
                     type="text"
                     name="email"
                     id="email"
-                    value={employee.email}
+                    value={user.email}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, email: ev.target.value })
+                      setUser({ ...user, email: ev.target.value })
                     }
                     placeholder="Email"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -229,30 +225,11 @@ export default function EmployeeView() {
                     type="text"
                     name="nic"
                     id="nic"
-                    value={employee.nic}
+                    value={user.nic}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, nic: ev.target.value })
+                      setUser({ ...user, nic: ev.target.value })
                     }
                     placeholder="NIC"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="dob"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    DOB
-                  </label>
-                  <input
-                    type="date"
-                    name="dob"
-                    id="dob"
-                    value={employee.dob}
-                    onChange={(ev) =>
-                      setEmployee({ ...employee, dob: ev.target.value })
-                    }
-                    placeholder="DOB"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -267,33 +244,15 @@ export default function EmployeeView() {
                     type="date"
                     name="join_date"
                     id="join_date"
-                    value={employee.join_date}
+                    value={user.join_date}
                     onChange={(ev) =>
-                      setEmployee({ ...employee, join_date: ev.target.value })
+                      setUser({ ...user, join_date: ev.target.value })
                     }
                     placeholder="Join Date"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="age"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    age
-                  </label>
-                  <input
-                    type="text"
-                    name="age"
-                    id="age"
-                    value={employee.age}
-                    onChange={(ev) =>
-                      setEmployee({ ...employee, age: ev.target.value })
-                    }
-                    placeholder="Age"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
+
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="status"
@@ -303,9 +262,9 @@ export default function EmployeeView() {
                   </label>
                   <Select
                     options={statusOptions}
-                    value={statusOptions.find(option => option.value === employee.status)}
+                    value={statusOptions.find(option => option.value === user.status)}
                     onChange={(selectedOption) =>
-                      setEmployee({ ...employee, status: selectedOption.value })
+                      setUser({ ...user, status: selectedOption.value })
                     }
                     className="mt-1 block w-full"
                   />

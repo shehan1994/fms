@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEmployeeRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,6 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        
         return true;
     }
 
@@ -31,11 +30,9 @@ class UpdateEmployeeRequest extends FormRequest
             'contact_no' => 'required|string|max:10',
             'terminate_date' => 'nullable|date',
             'designation' => 'required|string|max:100',
-            'email' => 'nullable|email|unique:employees,email,' . $this->route('employee')->id,
+            'email' => 'nullable|email|unique:users,email,' . $this->route('user')->id,
             'nic'=>'required|string|max:12',
             'status' => 'required|integer',
-            'age' => 'required|integer|min:18|max:65', // Adjust age limits as needed
-            'dob' => 'required|date|before_or_equal:' . now()->subYears(18)->toDateString(),
             'join_date' => 'required|date|before_or_equal:today',
         ];
     }
