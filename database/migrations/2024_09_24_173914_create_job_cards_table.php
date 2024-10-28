@@ -28,6 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id'); 
             $table->unsignedBigInteger('apartment_id'); 
             $table->unsignedBigInteger('payment_id')->nullable(); 
+            $table->unsignedBigInteger('team_id')->nullable(); 
             $table->timestamps();
         });
     }
