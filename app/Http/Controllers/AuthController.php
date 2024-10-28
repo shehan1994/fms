@@ -15,8 +15,9 @@ class AuthController extends Controller
 
     public function index(Request $request)
     {
-        return UserResource::collection(User::orderBy('created_at','desc')
-            ->paginate(10)
+        return UserResource::collection(
+            User::orderBy('created_at', 'desc')
+                ->paginate(10)
         );
     }
 
@@ -45,12 +46,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function show(User $user,Request $request)
+    public function show(User $user, Request $request)
     {
         return new UserResource($user);
     }
 
-    public function update(UpdateUserRequest $request, User  $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
         $user->update($data);
@@ -102,9 +103,36 @@ class AuthController extends Controller
         $search = $request->query('search');
         $engineers = User::where('first_name', 'like', '%' . $search . '%')
             ->where('level', 3) // Add this line to filter by level
-            ->select('id', 'first_name', 'last_name', 'designation', 'level') 
+            ->select('id', 'first_name', 'last_name', 'designation', 'level')
             ->get();
         return response()->json($engineers);
+    }
+
+    public function usersUnderLevel2(Request $request)
+    {
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+
+        $users = User::whereIn('level', [4, 5])
+            ->where('status', 1)
+            ->select('id', 'first_name', 'last_name', 'designation', 'level','user_code')
+            ->whereDoesntHave('teams', function ($query) use ($startDate, $endDate) {
+                $query->where(function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('expected_start_date', [$startDate, $endDate])
+                        ->orWhereBetween('expected_end_date', [$startDate, $endDate])
+                        ->orWhere(function ($query) use ($startDate, $endDate) {
+                            $query->where('expected_start_date', '<=', $startDate)
+                                ->where('expected_end_date', '>=', $endDate);
+                        });
+                });
+            })->get();
+
+        return response()->json($users);
     }
 
 }

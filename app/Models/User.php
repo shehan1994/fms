@@ -34,6 +34,11 @@ class User extends Authenticatable
         'join_date',
     ];
 
+    public function teams()
+{
+    return $this->hasMany(Team::class, 'engineer_id');
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -27,7 +27,7 @@ export default function DefaultLayout() {
   const navigate = useNavigate();
   const { currentUser, userToken, setCurrentUser, showToast } = useStateContext();
 
-  console.log("currentUser",currentUser);
+  console.log("currentUser", currentUser);
 
   if (!userToken) {
     return <Navigate to="login" />;
@@ -57,6 +57,10 @@ export default function DefaultLayout() {
 
   const onJobCardClick = (ev) => {
     navigate("/job_cards");
+  };
+
+  const onEngineerJobCardClick = (ev) => {
+    navigate("/engineer_job_cards");
   };
 
   const userManage = (ev) => {
@@ -104,15 +108,26 @@ export default function DefaultLayout() {
                         <Menu.Button className="px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
                           Job Card
                         </Menu.Button>
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
-                            <a href="#" onClick={onJobCardClick} className="block px-4 py-2 text-sm text-gray-700">Job Card</a>
-                          </Menu.Item>
-                          <Menu.Item>
-                            <a href="#" onClick={onJobClick} className="block px-4 py-2 text-sm text-gray-700">Job</a>
-                          </Menu.Item>
-                        </Menu.Items>
+                        {(currentUser.level === "1" || currentUser.level === "2" || currentUser.level === "3") && (
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {(currentUser.level === "1" || currentUser.level === "2") && (
+                              <Menu.Item>
+                                <a href="#" onClick={onJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
+                                  Job Card
+                                </a>
+                              </Menu.Item>
+                            )}
+                            {currentUser.level === "3" && (
+                              <Menu.Item>
+                                <a href="#" onClick={onEngineerJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
+                                  Engineer Job Card
+                                </a>
+                              </Menu.Item>
+                            )}
+                          </Menu.Items>
+                        )}
                       </Menu>
+
                     </div>
                   </div>
                 </div>
@@ -139,10 +154,10 @@ export default function DefaultLayout() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        
+
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          
-                      
+
+
                           <Menu.Item>
                             <a href="#" onClick={logout} className="block px-4 py-2 text-sm text-gray-700">Sign out</a>
                           </Menu.Item>

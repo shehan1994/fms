@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/apartments', [\App\Http\Controllers\ApartmentController::class, 'search']);
     Route::get('/apartments/aprtmentsByCustomer', [\App\Http\Controllers\ApartmentController::class, 'aprtmentsByCustomer']);
     Route::get('/users', [\App\Http\Controllers\AuthController::class, 'searchEngineers']);
+    Route::get('/users/levelUnder2', [\App\Http\Controllers\AuthController::class, 'usersUnderLevel2']);
     Route::get('/sms', [\App\Http\Controllers\SMSController::class, 'sendSMS']);
 });
 

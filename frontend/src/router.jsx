@@ -15,6 +15,8 @@ import JobView from "./views/Job/JobView.jsx";
 import Users from "./views/Users/Users.jsx";
 import UserView from "./views/Users/UserView.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import EngineerJobCards from "./views/JobCard/EngineerJobCard/EngineerJobCards.jsx";
+import EngineerJobCardView from "./views/JobCard//EngineerJobCard/EngineerJobCardView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +78,14 @@ const router = createBrowserRouter([
       {
         path: "/job_card/:id",
         element: <ProtectedRoute requiredLevel={2}><JobCardView /></ProtectedRoute>, // Level 1 & 2 can view/edit
+      },
+      {
+        path: "/engineer_job_cards",
+        element: <ProtectedRoute requiredLevel={3}><EngineerJobCards /></ProtectedRoute>, // Level 1 & 2 can view/edit
+      },
+      {
+        path: "/engineer_job_card/create/:id",
+        element: <ProtectedRoute requiredLevel={3}><EngineerJobCardView /></ProtectedRoute>, // Level 1 & 2 can view/edit
       },
       {
         path: "/jobs",
