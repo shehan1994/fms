@@ -126,6 +126,18 @@ export default function Apartments() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
+                      District
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
+                      Province
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
                       Status
                     </th>
 
@@ -144,16 +156,22 @@ export default function Apartments() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.customer.first_name} {row.customer.last_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.apt_no}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.apt_no || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.address_01}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.address_01 || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.address_02}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.address_02 || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.city}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.city || "N/A"}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.district || "N/A"}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">{row.province || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className={`whitespace-no-wrap ${row.status === 1 ? "text-green-500" :

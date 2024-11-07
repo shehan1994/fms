@@ -151,22 +151,22 @@ export default function Customers() {
                 {currentRows.map((row) => (
                   <tr key={row.id}>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.first_name}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.first_name || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.last_name}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.last_name || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.nic}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.nic || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.passport_no}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.passport_no || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.email}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.email || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{row.dob}</p>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.dob || "N/A"}</p>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <Link

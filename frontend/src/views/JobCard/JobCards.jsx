@@ -163,22 +163,22 @@ export default function JobCards() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.customer?.first_name} {row.customer.last_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.apartment?.apt_no}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.apartment?.apt_no || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.task}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.task || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.first_name}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.first_name || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.designation}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user?.designation || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.assign_date}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.assign_date || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.created_at}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.created_at || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className={`whitespace-no-wrap ${row.status === 1 ? "text-green-500" :

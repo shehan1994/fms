@@ -153,31 +153,31 @@ export default function Users() {
                   {currentRows.map((row) => (
                     <tr key={row.id}>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.first_name} </p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.first_name || "N/A"} </p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.last_name}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.last_name || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.user_code}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.user_code || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">Level 0{row.level}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">Level 0{row.level || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.contact_no}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.contact_no || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.designation}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.designation || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.email}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.email || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.nic}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.nic || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.join_date}</p>
+                        <p className="text-gray-900 whitespace-no-wrap">{row.join_date || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className={`whitespace-no-wrap ${row.status === 1 ? "text-green-500" :
