@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   token: null,
   error: null,
-  loading: false, // Add loading state
+  loading: false, 
 };
 
 const authSlice = createSlice({
@@ -12,18 +12,18 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginRequest: (state) => {
-      state.loading = true; // Set loading to true when login starts
-      state.error = null; // Clear any previous errors
+      state.loading = true; 
+      state.error = null; 
     },
     loginSuccess: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.error = null;
-      state.loading = false; // Set loading to false after login success
+      state.loading = false; 
     },
     loginFailure: (state, action) => {
       state.error = action.payload;
-      state.loading = false; // Set loading to false after login failure
+      state.loading = false; 
     },
     logout: (state) => {
       state.user = null;
