@@ -16,6 +16,8 @@ class Apartment extends Model
         'address_01',
         'address_02',
         'city',
+        'district',
+        'province',
         'status',
         'created_at',
         'updated_at'

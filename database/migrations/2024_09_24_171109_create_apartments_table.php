@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('apt_no',255)->unique();
             $table->string('address_01',255);
             $table->string('address_02',255)->nullable();
-            $table->string('city',255)->nullable();;
+            $table->string('city',255)->nullable();
+            $table->string('district',255)->nullable();
+            $table->string('province',255)->nullable();
             $table->integer('status');
             $table->timestamps();
         });

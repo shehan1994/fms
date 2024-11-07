@@ -17,6 +17,8 @@ export default function ApartmentView() {
     address_01: "",
     address_02: "",
     city: "",
+    district: "",
+    province: "",
     status: "",
   });
 
@@ -190,6 +192,44 @@ export default function ApartmentView() {
                       setApartment({ ...apartment, city: ev.target.value })
                     }
                     placeholder="City"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <label
+                    htmlFor="district"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    District
+                  </label>
+                  <input
+                    type="text"
+                    name="district"
+                    id="district"
+                    value={apartment.district}
+                    onChange={(ev) =>
+                      setApartment({ ...apartment, district: ev.target.value })
+                    }
+                    placeholder="District"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <label
+                    htmlFor="province"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Province
+                  </label>
+                  <input
+                    type="text"
+                    name="province"
+                    id="province"
+                    value={apartment.province}
+                    onChange={(ev) =>
+                      setApartment({ ...apartment, province: ev.target.value })
+                    }
+                    placeholder="Province"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>

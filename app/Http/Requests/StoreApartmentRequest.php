@@ -36,6 +36,8 @@ class StoreApartmentRequest extends FormRequest
             'address_01'=>'required|string',
             'address_02'=>'nullable|string',
             'city'=>'nullable|string',
+            'district'=>'nullable|string',
+            'province'=>'nullable|string',
             'status'=>'nullable|integer',
 
         ];
