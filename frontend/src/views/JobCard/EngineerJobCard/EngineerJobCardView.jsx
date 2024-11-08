@@ -17,8 +17,6 @@ export default function EngineerJobCardView() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const isEdit = queryParams.get("isEdit");
-  console.log("id is", id);
-  console.log(" isEdit", isEdit);
 
   const [team, setTeam] = useState({
     team_members: [],
@@ -37,15 +35,11 @@ export default function EngineerJobCardView() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    console.log("selectedTeam", selectedTeam);
-    console.log("team payload", team);
-    console.log("team isEdit", isEdit);
     const payload = { ...team,
       job_card_id: id,
       team_members: selectedTeam,
       engineer_id: user.id,
     };
-    console.log("team payloadaa", payload);
     delete payload.image_url;
     let res = null;
     if (isEdit === 1) {
@@ -96,13 +90,8 @@ export default function EngineerJobCardView() {
 
   const handleSeachClick = (ev) => {
     ev.preventDefault();
-    console.log("Searching...");
-    console.log("s...", team.expected_start_date);
-    console.log("e...", team.expected_end_date);
-
     if (team?.expected_start_date && team?.expected_end_date) {
       axiosClient.get(`/users/levelUnder2?start_date=${team.expected_start_date}&end_date=${team.expected_end_date}`).then((response) => {
-        console.log("resp", response.data);
         setMemberOptions(response.data);
       }).catch((error) => {
         console.error('Error fetching customer options', error);
@@ -110,7 +99,6 @@ export default function EngineerJobCardView() {
     } else {
       setError("Please select Date range");
     }
-
   };
 
   return (

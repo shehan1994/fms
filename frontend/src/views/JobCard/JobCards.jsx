@@ -68,7 +68,6 @@ export default function JobCards() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleViewTeamClick = (jobCard) => {
-    console.log("selected Job card ", jobCard);
     setSelectedJobCard(jobCard);
     setShowModal(true);
   };
