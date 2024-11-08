@@ -3,51 +3,59 @@ import { useState } from "react";
 import TButton from "../../../components/core/TButton.jsx";
 import PageComponent from "../../../components/PageComponent.jsx";
 import axiosClient from "../../../axios.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useStateContext } from "../../../contexts/ContextProvider.jsx";
 import Select from 'react-select';
+import { useSelector } from "react-redux";
 
 export default function EngineerJobCardView() {
   const { showToast } = useStateContext();
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isEdit = queryParams.get("isEdit");
   console.log("id is", id);
+  console.log(" isEdit", isEdit);
 
   const [team, setTeam] = useState({
-    customer_id: "",
-    apartment_id: "",
-    user_id: "",
-    task: "",
-    assign_date: "",
-    customer_contact_no: "",
+    team_members: [],
+    expected_start_date: "",
+    expected_end_date: "",
+    job_card_id: "",
+    engineer_id: "",
+    description: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedApartment, setSelectedApartment] = useState(null);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [customerOptions, setCustomerOptions] = useState([]);
   const [memberOptions, setMemberOptions] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState([]);
+  const user = useSelector((state) => state.auth.user);
 
   const onSubmit = (ev) => {
     ev.preventDefault();
     console.log("selectedTeam", selectedTeam);
     console.log("team payload", team);
-    const payload = { ...team };
+    console.log("team isEdit", isEdit);
+    const payload = { ...team,
+      job_card_id: id,
+      team_members: selectedTeam,
+      engineer_id: user.id,
+    };
+    console.log("team payloadaa", payload);
     delete payload.image_url;
     let res = null;
-    if (id) {
-      res = axiosClient.put(`/job_card/${id}`, editObject);
+    if (isEdit === 1) {
+      // res = axiosClient.put(`/team/${id}`, editObject);
     } else {
-      res = axiosClient.post("/job_card", payload);
+      res = axiosClient.post("/team", payload);
     }
     res
       .then((res) => {
-        navigate("/job_cards");
+        navigate("/engineer_job_cards");
         showToast(id ? "The Job card was updated" : "The Job card was created");
         const message = "Hi this is from FMMS, Your Job card created successfully, One of our team member will contact you soon."
         if (!id) {
@@ -61,28 +69,11 @@ export default function EngineerJobCardView() {
       });
   };
 
-
   const onBackButton = () => {
     navigate("/engineer_job_cards");
   }
 
-  // useEffect(() => {
-  //   if (id) {
-  //     setLoading(true);
-  //     axiosClient.get(`/job_card/${id}`).then(({ data }) => {
-  //       setTeam(data.data);
-  //       setLoading(false);
-  //     });
-  //   }
-  // }, [id]);
 
-  const handleCustomerChange = (selectedOption) => {
-    setSelectedCustomer(selectedOption);
-    if (selectedOption.value) {
-      fetchApartments(selectedOption.value);
-    }
-    setTeam({ ...team, customer_id: selectedOption?.value || "" });
-  };
 
   const handleTeamChange = (e, value) => {
 

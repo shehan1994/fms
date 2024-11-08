@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->string('team_members');
+            $table->json('team_members');
             $table->date('expected_start_date')->nullable();
             $table->date('expected_end_date')->nullable();
             $table->unsignedBigInteger('job_card_id');

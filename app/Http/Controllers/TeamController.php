@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
+use App\Http\Resources\TeamResource;
+use App\Models\Job_card;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -33,9 +36,20 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTeamRequest $request)
     {
-        //
+
+        $data = $request->validated();
+        $jobCard = Job_card::find($data['job_card_id']);
+
+        if ($jobCard && $jobCard->team_id !== null) {
+            return response()->json(['error' => 'This job card already has a team assigned.'], 400);
+        }
+        $team = Team::create($data);
+        $jobCard->team_id = $team->id;
+        $jobCard->save();
+
+        return new TeamResource($team);
     }
 
     /**
