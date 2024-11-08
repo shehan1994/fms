@@ -210,7 +210,7 @@ const aprtmentId = event.target.value
                     Apartments
                   </label>
                   {apartmentOptions.map((option, index) => (
-                    <label key={index} className="mr-5 p-4">
+                    <label key={index} className="mr-5 p-4 flex items-center">
                       <input
                         type="radio"
                         name="apartments"

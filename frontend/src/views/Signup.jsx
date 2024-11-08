@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import axiosClient from '../axios.js'
@@ -6,6 +6,7 @@ import { useStateContext } from "../contexts/ContextProvider.jsx";
 import Select from 'react-select';
 
 export default function Signup() {
+  const navigate = useNavigate();
   const { setCurrentUser, setUserToken } = useStateContext();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ export default function Signup() {
       last_name: employee.last_name,
       email: employee.email,
       password: employee.password,
-      password_confirmation: employee.passwordConfirmation, // Include this field
+      password_confirmation: employee.passwordConfirmation, 
       level: employee.level,
       contact_no: employee.contact_no,
       terminate_date: employee.terminate_date,
@@ -45,6 +46,7 @@ export default function Signup() {
       .then(({ data }) => {
         setCurrentUser(data.user)
         setUserToken(data.token)
+        navigate("/login");
       })
       .catch((error) => {
         if (error.response) {
@@ -117,7 +119,6 @@ export default function Signup() {
             
             <Select
               options={[
-                { value: "1", label: 'Level 1' },
                 { value: "2", label: 'Level 2' },
                 { value: '3', label: 'Level 3' },
                 { value: "4", label: 'Level 4' },
