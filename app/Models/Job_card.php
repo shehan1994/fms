@@ -40,5 +40,10 @@ class Job_card extends Model
         return $this->belongsTo(Apartment::class, 'apartment_id');
     }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
 
 }

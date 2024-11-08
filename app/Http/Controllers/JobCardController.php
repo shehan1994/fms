@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreJobCardRequest;
 use App\Http\Resources\JobCardResource;
 use App\Models\Job_card;
+use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 use Log;
 
@@ -18,25 +20,74 @@ class JobCardController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+
         if ($user->level == 1 || $user->level == 2) {
             // Level 1 and 2 users can see all job cards
             $result = Job_card::with([
-                'customer:id,first_name,last_name',       // Load customer relationship
-                'user:id,first_name,designation',         // Load employee relationship
-                'apartment:id,apt_no'                      // Load apartment relationship
+                'customer:id,first_name,last_name',
+                'user:id,first_name,last_name,designation',
+                'apartment:id,apt_no',
+                'team:id,team_members', // Ensuring that team_members is loaded
             ])
-                ->orderBy('created_at', 'desc')
+                ->select('job_cards.*')
+                ->leftJoin('teams', 'teams.id', '=', 'job_cards.team_id') // Join the teams table
+                ->orderBy('job_cards.created_at', 'desc')
                 ->paginate(10);
+
+            foreach ($result as $jobCard) {
+                // Initialize team members array
+                $teamMembers = [];
+
+                // Check if team_members exists and is an array
+                if (isset($jobCard->team) && !empty($jobCard->team->team_members)) {
+                    foreach ($jobCard->team->team_members as $memberId) {
+                        // Fetch user by member ID
+                        $teamMember = User::find($memberId);
+
+                        // Check if user exists and add their details
+                        if ($teamMember) {
+                            $teamMembers[] = [
+                                'id' => $teamMember->id,
+                                'first_name' => $teamMember->first_name,
+                                'last_name' => $teamMember->last_name,
+                                'designation' => $teamMember->designation,
+                                'contact_no' => $teamMember->contact_no,
+                            ];
+                        }
+                    }
+                }
+                $jobCard->team_members = $teamMembers;
+            }
         } else {
-            // Other users can only see their assigned job cards
             $result = Job_card::with([
                 'customer:id,first_name,last_name',
-                'user:id,first_name,designation',
-                'apartment:id,apt_no'
+                'user:id,first_name,last_name,designation',
+                'apartment:id,apt_no',
+                'team:id,team_members', 
             ])
-                ->where('user_id', $user->id) // Filter by assigned user ID
-                ->orderBy('created_at', 'desc')
+                ->select('job_cards.*')
+                ->leftJoin('teams', 'teams.id', '=', 'job_cards.team_id') 
+                ->where('job_cards.user_id', $user->id)
+                ->orderBy('job_cards.created_at', 'desc')
                 ->paginate(10);
+            foreach ($result as $jobCard) {
+                $teamMembers = [];
+                if (isset($jobCard->team) && !empty($jobCard->team->team_members)) {
+                    foreach ($jobCard->team->team_members as $memberId) {
+                        $teamMember = User::find($memberId);
+                        if ($teamMember) {
+                            $teamMembers[] = [
+                                'id' => $teamMember->id,
+                                'first_name' => $teamMember->first_name,
+                                'last_name' => $teamMember->last_name,
+                                'designation' => $teamMember->designation,
+                                'contact_no' => $teamMember->contact_no,
+                            ];
+                        }
+                    }
+                }
+                $jobCard->team_members = $teamMembers;
+            }
         }
 
         return JobCardResource::collection($result);
@@ -64,7 +115,6 @@ class JobCardController extends Controller
         $data = $request->validated();
         Log::info($data);
         $jobCard = Job_card::create($data);
-        // Log::info($jobCard);
         return new JobCardResource($jobCard);
     }
 
@@ -108,11 +158,7 @@ class JobCardController extends Controller
             'customer_id' => 'required|integer',
             'apartment_id' => 'required|integer',
         ]);
-
-        // Update the job card with the validated data
         $job_card->update($validatedData);
-
-        // Return the updated job card resource
         return new JobCardResource($job_card);
     }
 

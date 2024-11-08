@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import "./styles.css"; // Import your styles
 import { useSelector } from "react-redux";
+import Modal from "../../components/core/Modal.jsx";
 
 export default function JobCards() {
   const { showToast } = useStateContext();
@@ -47,6 +48,8 @@ export default function JobCards() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedJobCard, setSelectedJobCard] = useState(null);
   const searchTermLower = searchTerm.toLowerCase();
 
   const handleSearchChange = (e) => {
@@ -63,6 +66,16 @@ export default function JobCards() {
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleViewTeamClick = (jobCard) => {
+    console.log("selected Job card ", jobCard);
+    setSelectedJobCard(jobCard);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <PageComponent
@@ -198,6 +211,11 @@ export default function JobCards() {
                         >
                           Edit
                         </Link>
+                        {row.team_id &&
+                          <button onClick={() => handleViewTeamClick(row)} className="text-green-600 hover:text-indigo-900">
+                            View Team
+                          </button>
+                        }
                       </td>
                     </tr>
                   ))}
@@ -224,6 +242,27 @@ export default function JobCards() {
           </div>
         </div>
       )}
+      <Modal show={showModal} onClose={closeModal}>
+  <h2 className="text-xl font-semibold mb-4">
+    Customer Name: {selectedJobCard?.customer?.first_name} {selectedJobCard?.customer?.last_name}
+  </h2>
+  <h3 className="text-xl font-semibold mb-4">
+    Engineer Name: {selectedJobCard?.user?.first_name} {selectedJobCard?.user?.last_name}
+  </h3>
+
+  <p className="text-lg font-medium mb-4 text-gray-700">Assigned Team:</p>
+  <ul className="list-disc list-inside">
+    {(selectedJobCard?.team_members?.length ?? 0) > 0 ? (
+      selectedJobCard.team_members.map((worker) => (
+        <li key={worker.id} className="text-gray-700 text-lg">
+          {worker.first_name} {worker.last_name} - {worker.designation} {worker.contact_no}
+        </li>
+      ))
+    ) : (
+      <p className="text-gray-600 text-lg">No workers assigned to this team.</p>
+    )}
+  </ul>
+</Modal>
     </PageComponent>
   );
 }
