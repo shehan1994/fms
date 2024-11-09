@@ -15,6 +15,14 @@ export default function JobCards() {
   const [jobCards, setJobCards] = useState([]);
   const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(5);
+  const [showModal, setShowModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedJobCard, setSelectedJobCard] = useState(null);
+  const searchTermLower = searchTerm.toLowerCase();
+  const [payment, setPayment] = useState({});
   const user = useSelector((state) => state.auth.user);
 
   // const onDeleteClick = (id) => {
@@ -45,12 +53,7 @@ export default function JobCards() {
     getJobCards();
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(5);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedJobCard, setSelectedJobCard] = useState(null);
-  const searchTermLower = searchTerm.toLowerCase();
+
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -72,8 +75,14 @@ export default function JobCards() {
     setShowModal(true);
   };
 
+  const handlePaymentClick = (jobCard) => {
+    setSelectedJobCard(jobCard);
+    setShowPaymentModal(true);
+  };
+
   const closeModal = () => {
     setShowModal(false);
+    setShowPaymentModal(false);
   };
 
   return (
@@ -192,28 +201,43 @@ export default function JobCards() {
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.created_at || "N/A"}</p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className={`whitespace-no-wrap ${row.status === 1 ? "text-green-500" :
-                          row.status === 2 ? "text-yellow-500" :
-                            row.status === 3 ? "text-red-500" :
-                              "text-gray-900"
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm w-40">
+                        <p className={`whitespace-no-wrap 
+                        ${row.status === "1" ? "text-yellow-500" :
+                            row.status === "2" ? "text-yellow-500" :
+                              row.status === "3" ? "text-yellow-500" :
+                                row.status === "4" ? "text-blue-500" :
+                                  row.status === "5" ? "text-green-500" :
+                                    "text-gray-900"
                           }`}>
-                          {row.status === 1 ? "Active" :
-                            row.status === 2 ? "Deactive" :
-                              row.status === 3 ? "Terminated" :
-                                "-"}
+                          {row.status === "1" ? "Assign to Engineer" :
+                            row.status === "2" ? "Team Assigned" :
+                              row.status === "3" ? "Engineer Finished" :
+                                row.status === "4" ? "Payment Pending" :
+                                  row.status === "5" ? "Payment Done" :
+                                    "-"}
                         </p></td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <Link
-                          to={`/job_card/${row.id}`}
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit
-                        </Link>
+                        {(row.status === "1" || row.status === "2") &&
+                          <Link
+                            to={`/job_card/${row.id}`}
+                            className="text-indigo-600 hover:text-indigo-900 border-y-4 border-indigo-300"
+                          >
+                            Edit
+                          </Link>
+                        }
                         {row.team_id &&
-                          <button onClick={() => handleViewTeamClick(row)} className="text-green-600 hover:text-indigo-900">
+                          <button onClick={() => handleViewTeamClick(row)} className=" hover:text-indigo-900 border-y-4 border-indigo-300">
                             View Team
                           </button>
+                        }
+                        {row.status === "3" &&
+                          <button onClick={() => handlePaymentClick(row)} className=" hover:text-indigo-900 border-y-4 border-indigo-300">
+                            Payment
+                          </button>
+                        }
+                        {(row.status === "4" || row.status === "5") &&
+                          <lable> - </lable>
                         }
                       </td>
                     </tr>
@@ -262,6 +286,54 @@ export default function JobCards() {
             <p className="text-gray-600 text-lg">No workers assigned to this team.</p>
           )}
         </ul>
+      </ModalQuarter>
+      <ModalQuarter show={showPaymentModal} onClose={closeModal}>
+        <h2 className="text-xl font-semibold mb-4">
+          Payment & Close the Job Card
+        </h2>
+        <hr></hr>
+        <div className="col-span-6 sm:col-span-3 mt-2">
+          <label
+            htmlFor="start_date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Start Date
+          </label>
+          <input
+            type="date"
+            name="start_date"
+            id="start_date"
+            value={payment?.start_date}
+            onChange={(ev) =>
+              setPayment({ ...payment, start_date: ev.target.value })
+            }
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3 mt-2">
+          <label
+            htmlFor="end_date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            End Date
+          </label>
+          <input
+            type="date"
+            name="end_date"
+            id="end_date"
+            value={payment?.end_date}
+            onChange={(ev) =>
+              setPayment({ ...payment, end_date: ev.target.value })
+            }
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          />
+        </div>
+        <div className="mt-5 flex justify-center">
+          <TButton color="green" >
+            <PlusCircleIcon className="h-6 w-6 mr-2" />
+            Finish
+          </TButton>
+        </div>
       </ModalQuarter>
     </PageComponent>
   );

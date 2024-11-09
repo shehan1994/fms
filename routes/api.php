@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [\App\Http\Controllers\AuthController::class, 'searchEngineers']);
     Route::get('/users/levelUnder2', [\App\Http\Controllers\AuthController::class, 'usersUnderLevel2']);
     Route::get('/sms', [\App\Http\Controllers\SMSController::class, 'sendSMS']);
+    Route::post('/job_card/finishByEngineer', [\App\Http\Controllers\JobCardController::class, 'finishByEngineer']);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);

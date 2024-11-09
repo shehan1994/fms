@@ -7,6 +7,7 @@ use App\Http\Resources\JobCardResource;
 use App\Models\Job_card;
 use App\Models\User;
 use DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Log;
 
@@ -63,10 +64,10 @@ class JobCardController extends Controller
                 'customer:id,first_name,last_name',
                 'user:id,first_name,last_name,designation',
                 'apartment:id,apt_no',
-                'team:id,team_members', 
+                'team:id,team_members',
             ])
                 ->select('job_cards.*')
-                ->leftJoin('teams', 'teams.id', '=', 'job_cards.team_id') 
+                ->leftJoin('teams', 'teams.id', '=', 'job_cards.team_id')
                 ->where('job_cards.user_id', $user->id)
                 ->orderBy('job_cards.created_at', 'desc')
                 ->paginate(10);
@@ -113,6 +114,7 @@ class JobCardController extends Controller
     public function store(StoreJobCardRequest $request)
     {
         $data = $request->validated();
+        $data['status'] = "1";
         Log::info($data);
         $jobCard = Job_card::create($data);
         return new JobCardResource($jobCard);
@@ -160,6 +162,25 @@ class JobCardController extends Controller
         ]);
         $job_card->update($validatedData);
         return new JobCardResource($job_card);
+    }
+    public function finishByEngineer(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'required|exists:job_cards,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+        ]);
+        try {
+            $job_card = Job_card::findOrFail($validatedData['id']);
+            $job_card->update([
+                'start_date' => $validatedData['start_date'],
+                'end_date' => $validatedData['end_date'],
+                'status' => 3,
+            ]);
+            return new JobCardResource($job_card);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Job card not found'], 404);
+        }
     }
 
     /**

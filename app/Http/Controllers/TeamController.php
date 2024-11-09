@@ -47,6 +47,7 @@ class TeamController extends Controller
         }
         $team = Team::create($data);
         $jobCard->team_id = $team->id;
+        $jobCard->status = "2";
         $jobCard->save();
 
         return new TeamResource($team);
