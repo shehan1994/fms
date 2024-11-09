@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import "./styles.css"; // Import your styles
 import { useSelector } from "react-redux";
-import Modal from "../../components/core/Modal.jsx";
+import ModalQuarter from "../../components/core/ModalQuarter.jsx";
 
 export default function JobCards() {
   const { showToast } = useStateContext();
@@ -241,27 +241,28 @@ export default function JobCards() {
           </div>
         </div>
       )}
-      <Modal show={showModal} onClose={closeModal}>
-  <h2 className="text-xl font-semibold mb-4">
-    Customer Name: {selectedJobCard?.customer?.first_name} {selectedJobCard?.customer?.last_name}
-  </h2>
-  <h3 className="text-xl font-semibold mb-4">
-    Engineer Name: {selectedJobCard?.user?.first_name} {selectedJobCard?.user?.last_name}
-  </h3>
+      <ModalQuarter show={showModal} onClose={closeModal}>
+        <h2 className="text-xl font-semibold mb-4">
+          Customer Name: {selectedJobCard?.customer?.first_name} {selectedJobCard?.customer?.last_name}
+        </h2>
+        <hr></hr>
+        <h3 className="text-xl m-4 text-gray-700">
+          Engineer Name: {selectedJobCard?.user?.first_name} {selectedJobCard?.user?.last_name}
+        </h3>
 
-  <p className="text-lg font-medium mb-4 text-gray-700">Assigned Team:</p>
-  <ul className="list-disc list-inside">
-    {(selectedJobCard?.team_members?.length ?? 0) > 0 ? (
-      selectedJobCard.team_members.map((worker) => (
-        <li key={worker.id} className="text-gray-700 text-lg">
-          {worker.first_name} {worker.last_name} - {worker.designation} {worker.contact_no}
-        </li>
-      ))
-    ) : (
-      <p className="text-gray-600 text-lg">No workers assigned to this team.</p>
-    )}
-  </ul>
-</Modal>
+        <p className="text-lg font-medium m-4 text-gray-700">Assigned Team,</p>
+        <ul className="list-disc list-inside ml-8">
+          {(selectedJobCard?.team_members?.length ?? 0) > 0 ? (
+            selectedJobCard.team_members.map((worker) => (
+              <li key={worker.id} className="text-gray-700 text-lg">
+                {worker.first_name} {worker.last_name} - {worker.designation} - {worker.contact_no}
+              </li>
+            ))
+          ) : (
+            <p className="text-gray-600 text-lg">No workers assigned to this team.</p>
+          )}
+        </ul>
+      </ModalQuarter>
     </PageComponent>
   );
 }
