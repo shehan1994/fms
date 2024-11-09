@@ -44,7 +44,6 @@ export default function EngineerJobCards() {
     setShowModal(true);
   };
   const handleFinishClick = (jobCard) => {
-    console.log("j", jobCard);
     setSelectedJobCard(jobCard);
     setShowFinishModal(true);
   };
@@ -53,7 +52,6 @@ export default function EngineerJobCards() {
     const payload = { ...finishJob, id: selectedJobCard?.id };
     try {
       const response = await axiosClient.post("/job_card/finishByEngineer", payload);
-      console.log("Response data:", response.data);
       closeModal();
       showToast("The Job card finished By Engineer");
       navigate("/engineer_job_cards", { state: { reload: Date.now() } });
@@ -225,8 +223,6 @@ export default function EngineerJobCards() {
           </TButton>
         </div>
       </ModalQuarter>
-
-
     </PageComponent >
   );
 }

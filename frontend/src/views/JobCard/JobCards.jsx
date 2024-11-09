@@ -82,9 +82,7 @@ export default function JobCards() {
   const handlePaymentModelClick = async () => {
     const payload = { ...payment, job_card_id: selectedJobCard?.id };
     try {
-      // const response = await axiosClient.post("/job_card/finishByEngineer", payload);
       const response = await axiosClient.post("/payment", payload);
-      console.log("Response data:", response.data);
       closeModal();
       showToast("Payment added Successfully");
       navigate("/job_cards");
