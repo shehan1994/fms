@@ -71,6 +71,7 @@ export default function EngineerJobCards() {
     setShowModal(false);
     setShowFinishModal(false);
     setSelectedJobCard(null);
+    setFinishJob({});
   };
 
   return (

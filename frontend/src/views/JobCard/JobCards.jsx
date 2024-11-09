@@ -53,12 +53,11 @@ export default function JobCards() {
     getJobCards();
   }, []);
 
-
-
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
+
   const filteredData = jobCards.filter((item) =>
   (item.customer.first_name.toLowerCase().includes(searchTermLower) ||
     (item.apartment && item.apartment.apt_no && item.apartment.apt_no.toString().toLowerCase().includes(searchTermLower)))
@@ -80,9 +79,30 @@ export default function JobCards() {
     setShowPaymentModal(true);
   };
 
+  const handlePaymentModelClick = async () => {
+    const payload = { ...payment, job_card_id: selectedJobCard?.id };
+    try {
+      // const response = await axiosClient.post("/job_card/finishByEngineer", payload);
+      const response = await axiosClient.post("/payment", payload);
+      console.log("Response data:", response.data);
+      closeModal();
+      showToast("Payment added Successfully");
+      navigate("/job_cards");
+    } catch (err) {
+      console.error("Error finishing job card:", err);
+      if (err && err.response) {
+        showToast("Please contact admin");
+        closeModal();
+        setError(err.response.data.message);
+      }
+    }
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setShowPaymentModal(false);
+    setSelectedJobCard(null);
+    setPayment({});
   };
 
   return (
@@ -292,46 +312,49 @@ export default function JobCards() {
           Payment & Close the Job Card
         </h2>
         <hr></hr>
-        <div className="col-span-6 sm:col-span-3 mt-2">
+        <div className="col-span-6 sm:col-span-3 mt-5">
           <label
-            htmlFor="start_date"
+            htmlFor="method"
             className="block text-sm font-medium text-gray-700"
           >
-            Start Date
+            Method
           </label>
           <input
-            type="date"
-            name="start_date"
-            id="start_date"
-            value={payment?.start_date}
+            type="text"
+            name="method"
+            id="method"
+            value={payment.method}
             onChange={(ev) =>
-              setPayment({ ...payment, start_date: ev.target.value })
+              setPayment({ ...payment, method: ev.target.value })
             }
+            placeholder="Method"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-        <div className="col-span-6 sm:col-span-3 mt-2">
+        <div className="col-span-6 sm:col-span-3 mt-5">
           <label
-            htmlFor="end_date"
+            htmlFor="amount"
             className="block text-sm font-medium text-gray-700"
           >
-            End Date
+            Total Amount
           </label>
           <input
-            type="date"
-            name="end_date"
-            id="end_date"
-            value={payment?.end_date}
+            type="number"
+            name="amount"
+            id="amount"
+            value={payment.amount}
             onChange={(ev) =>
-              setPayment({ ...payment, end_date: ev.target.value })
+              setPayment({ ...payment, amount: ev.target.value })
             }
+            placeholder="Amount"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
+
         <div className="mt-5 flex justify-center">
-          <TButton color="green" >
+          <TButton color="green" onClick={handlePaymentModelClick}>
             <PlusCircleIcon className="h-6 w-6 mr-2" />
-            Finish
+            Payment
           </TButton>
         </div>
       </ModalQuarter>

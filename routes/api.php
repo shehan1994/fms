@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('user',\App\Http\Controllers\AuthController::class);
     Route::apiResource('job_card',\App\Http\Controllers\JobCardController::class);
     Route::apiResource('team',\App\Http\Controllers\TeamController::class);
+    Route::apiResource('payment',\App\Http\Controllers\PaymentController::class);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/customers', [\App\Http\Controllers\CustomerController::class, 'search']);
