@@ -38,7 +38,7 @@ export default function UserView() {
     delete payload.image_url;
     let res = null;
     if (id) {
-      res = axiosClient.put(`/signup/${id}`, payload);
+      res = axiosClient.put(`/user/${id}`, payload);
     } else {
       res = axiosClient.post("/signup", payload);
     }

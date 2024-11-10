@@ -143,6 +143,12 @@ export default function JobCards() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
+                      Job Card
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                    >
                       Customer
                     </th>
                     <th
@@ -199,6 +205,9 @@ export default function JobCards() {
                   {currentRows.map((row) => (
                     <tr key={row.id}>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">J-00{row.id}</p>
+                      </td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{row.customer?.first_name} {row.customer.last_name}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -224,37 +233,35 @@ export default function JobCards() {
                         ${row.status === "1" ? "text-yellow-500" :
                             row.status === "2" ? "text-yellow-500" :
                               row.status === "3" ? "text-yellow-500" :
-                                row.status === "4" ? "text-blue-500" :
-                                  row.status === "5" ? "text-green-500" :
-                                    "text-gray-900"
+                                row.status === "4" ? "text-green-500" :
+                                  "text-gray-900"
                           }`}>
                           {row.status === "1" ? "Assign to Engineer" :
                             row.status === "2" ? "Team Assigned" :
                               row.status === "3" ? "Engineer Finished" :
-                                row.status === "4" ? "Payment Pending" :
-                                  row.status === "5" ? "Payment Done" :
-                                    "-"}
+                                row.status === "4" ? "Payment Done" :
+                                  "-"}
                         </p></td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm w-40">
                         {(row.status === "1" || row.status === "2") &&
                           <Link
                             to={`/job_card/${row.id}`}
-                            className="text-indigo-600 hover:text-indigo-900 border-y-4 border-indigo-300"
+                            className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-1 px-1 border-b-4 border-yellow-700 hover:border-yellow-500 rounded  w-24"
                           >
                             Edit
                           </Link>
                         }
                         {row.team_id &&
-                          <button onClick={() => handleViewTeamClick(row)} className=" hover:text-indigo-900 border-y-4 border-indigo-300">
+                          <button onClick={() => handleViewTeamClick(row)} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded w-24">
                             View Team
                           </button>
                         }
                         {row.status === "3" &&
-                          <button onClick={() => handlePaymentClick(row)} className=" hover:text-indigo-900 border-y-4 border-indigo-300">
+                          <button onClick={() => handlePaymentClick(row)} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded w-24">
                             Payment
                           </button>
                         }
-                        {(row.status === "4" || row.status === "5") &&
+                        {(row.status === "4") &&
                           <lable> - </lable>
                         }
                       </td>
@@ -348,7 +355,25 @@ export default function JobCards() {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-
+        <div className="col-span-6 sm:col-span-3 mt-5">
+          <label
+            htmlFor="remark"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Remark
+          </label>
+          <input
+            type="text"
+            name="remark"
+            id="remark"
+            value={payment.remark}
+            onChange={(ev) =>
+              setPayment({ ...payment, remark: ev.target.value })
+            }
+            placeholder="remark"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          />
+        </div>
         <div className="mt-5 flex justify-center">
           <TButton color="green" onClick={handlePaymentModelClick}>
             <PlusCircleIcon className="h-6 w-6 mr-2" />

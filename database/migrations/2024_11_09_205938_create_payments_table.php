@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->string('remark',255)->nullable();
             $table->string('method',255)->nullable();
             $table->decimal('amount', 10, 2)->nullable();
             $table->unsignedBigInteger('job_card_id');

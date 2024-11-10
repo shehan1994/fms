@@ -19,6 +19,7 @@ class PaymentResource extends JsonResource
             'amount' => $this->amount,
             'job_card_id' => $this->job_card_id,
             'status' => $this->status,
+            'remark' => $this->remark,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

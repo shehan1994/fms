@@ -29,6 +29,7 @@ class StorePaymentRequest extends FormRequest
             'amount' => 'nullable|numeric|min:0',
             'job_card_id' => 'required|exists:job_cards,id',
             'status' => 'nullable|string|max:255',
+            'remark' => 'nullable|string|max:255',
         ];
     }
 }

@@ -46,7 +46,9 @@ class PaymentController extends Controller
         }
         $payment = payment::create($data);
         $jobCard->payment_id = $payment->id;
+        $jobCard->total_amount = $payment->amount;
         $jobCard->status = "4";
+        $jobCard->remark = $payment->remark;
         $jobCard->save();
 
         return new PaymentResource($payment);

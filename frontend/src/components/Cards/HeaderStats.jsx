@@ -4,7 +4,12 @@ import CardStats from "./CardStats";
 // components
 
 
-export default function HeaderStats() {
+export default function HeaderStats(data) {
+
+  console.log("data",data);
+  
+
+
   return (
     <>
       {/* Header */}
@@ -15,7 +20,7 @@ export default function HeaderStats() {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
                   statSubtitle="Jobs"
-                  statTitle="350,897"
+                  statTitle={data?.data?.job_total}
                   statArrow="up"
                   statPercent="3.48"
                   statPercentColor="text-emerald-500"
@@ -27,37 +32,37 @@ export default function HeaderStats() {
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
                   statSubtitle="NEW USERS"
-                  statTitle="2,356"
+                  statTitle={data?.data?.employee_total}
                   statArrow="down"
                   statPercent="3.48"
                   statPercentColor="text-red-500"
                   statDescripiron="Since last week"
-                  statIconName="fas fa-chart-pie"
+                  statIconName="fas fa-users"
                   statIconColor="bg-orange-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
                   statSubtitle="Job Finished"
-                  statTitle="924"
+                  statTitle={data?.data?.jobFinishedCount}
                   statArrow="down"
                   statPercent="1.10"
                   statPercentColor="text-orange-500"
                   statDescripiron="Since yesterday"
-                  statIconName="fas fa-users"
-                  statIconColor="bg-pink-500"
+                  statIconName="fas fa-chart-pie"
+                  statIconColor="bg-green-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
+                  statSubtitle="PENDING JOBS"
+                  statTitle={data?.data?.jobsPendingCount}
                   statArrow="up"
                   statPercent="12"
                   statPercentColor="text-emerald-500"
                   statDescripiron="Since last month"
-                  statIconName="fas fa-percent"
-                  statIconColor="bg-lightBlue-500"
+                  statIconName="fas fa-briefcase"
+                  statIconColor="bg-pink-500"
                 />
               </div>
             </div>

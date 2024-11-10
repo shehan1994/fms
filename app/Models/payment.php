@@ -14,5 +14,6 @@ class payment extends Model
         'amount',
         'job_card_id',
         'status',
+        'remark',
     ];
 }
