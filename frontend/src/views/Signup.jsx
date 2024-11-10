@@ -44,8 +44,6 @@ export default function Signup() {
     axiosClient
       .post("/signup", payload)
       .then(({ data }) => {
-        setCurrentUser(data.user)
-        setUserToken(data.token)
         navigate("/login");
       })
       .catch((error) => {

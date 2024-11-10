@@ -39,7 +39,7 @@ export default function DefaultLayout() {
     axiosClient
       .post('/logout')
       .then(() => {
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         if (error.response) {
@@ -106,29 +106,28 @@ export default function DefaultLayout() {
                         </NavLink>
                       ))}
                       <Menu as="div" className="relative ml-3">
-  <Menu.Button className="px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-    Job Card
-  </Menu.Button>
-  {(currentUser?.level === "1" || currentUser?.level === "2" || currentUser?.level === "3") && (
-    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-      {(currentUser?.level === "1" || currentUser?.level === "2") && (
-        <Menu.Item>
-          <a href="#" onClick={onJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
-            Job Card
-          </a>
-        </Menu.Item>
-      )}
-      {currentUser?.level === "3" && (
-        <Menu.Item>
-          <a href="#" onClick={onEngineerJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
-            Engineer Job Card
-          </a>
-        </Menu.Item>
-      )}
-    </Menu.Items>
-  )}
-</Menu>
-
+                        <Menu.Button className="px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                          Job Card
+                        </Menu.Button>
+                        {(currentUser?.level === "1" || currentUser?.level === "2" || currentUser?.level === "3") && (
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {(currentUser?.level === "1" || currentUser?.level === "2") && (
+                              <Menu.Item>
+                                <a href="#" onClick={onJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
+                                  Job Card
+                                </a>
+                              </Menu.Item>
+                            )}
+                            {currentUser?.level === "3" && (
+                              <Menu.Item>
+                                <a href="#" onClick={onEngineerJobCardClick} className="block px-4 py-2 text-sm text-gray-700">
+                                  Engineer Job Card
+                                </a>
+                              </Menu.Item>
+                            )}
+                          </Menu.Items>
+                        )}
+                      </Menu>
                     </div>
                   </div>
                 </div>
