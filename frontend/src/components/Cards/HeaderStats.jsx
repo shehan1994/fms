@@ -5,11 +5,6 @@ import CardStats from "./CardStats";
 
 
 export default function HeaderStats(data) {
-
-  console.log("data",data);
-  
-
-
   return (
     <>
       {/* Header */}
