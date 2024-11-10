@@ -67,10 +67,7 @@ export default function EngineerJobCardView() {
     navigate("/engineer_job_cards");
   }
 
-
-
   const handleTeamChange = (e, value) => {
-
     setSelectedTeam((prev) =>
       e.target.checked
         ? [...prev, value] // Add the value if checked
@@ -78,11 +75,9 @@ export default function EngineerJobCardView() {
     );
   };
 
-
   const sendSmS = (mobileNo, message) => {
     axiosClient.get(`/sms?phoneNumber=${mobileNo}&message=${message}`).then((response) => {
       console.log("resp", response);
-
     }).catch((error) => {
       console.error('Error fetching customer options', error);
     });

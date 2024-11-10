@@ -155,13 +155,13 @@ export default function JobCards() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
-                      Apartment No
+                      Code
                     </th>
                     <th
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
-                      Task
+                      Task  
                     </th>
                     <th
                       scope="col"
@@ -177,15 +177,21 @@ export default function JobCards() {
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider w-64"
                     >
                       Assigned Date
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider w-64"
                     >
-                      Created By
+                      Started Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider w-64"
+                    >
+                      Ended Date
                     </th>
                     <th
                       scope="col"
@@ -197,7 +203,7 @@ export default function JobCards() {
                       scope="col"
                       className="px-5 py-3 border-b-2 border-gray-200 table-header text-left text-xs font-semibold uppercase tracking-wider"
                     >
-                      Created
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -226,8 +232,10 @@ export default function JobCards() {
                         <p className="text-gray-900 whitespace-no-wrap">{row.assign_date || "N/A"}</p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{row.created_at || "N/A"}</p>
-                      </td>
+                      <p className="text-gray-900 whitespace-no-wrap">{row.start_date || "N/A"}</p></td>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <p className="text-gray-900 whitespace-no-wrap">{row.end_date || "N/A"}</p></td>
+                     
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm w-40">
                         <p className={`whitespace-no-wrap 
                         ${row.status === "1" ? "text-yellow-500" :

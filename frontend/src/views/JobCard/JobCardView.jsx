@@ -142,7 +142,7 @@ const aprtmentId = event.target.value
         setApartmentOptions(
           response.data.map(apartment => ({
             value: apartment.id,
-            label: apartment.apt_no + ' ' + apartment.address_01,
+            label: apartment.apt_no + ' / ' + apartment.address_01,
           }))
         );
       }).catch((error) => {
