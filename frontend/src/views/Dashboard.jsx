@@ -158,7 +158,7 @@ export default function Dashboard() {
               </div>
             </DashboardCard>
             <DashboardCard
-              title="jOB COUNT"
+              title="JOB COUNT"
               className="order-5 lg:order-3 row-span-2"
               style={{ animationDelay: '0.3s' }}
             >

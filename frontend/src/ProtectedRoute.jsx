@@ -2,11 +2,12 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function ProtectedRoute({ children, requiredLevel }) {
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
+  console.log("user of prot", user);
 
   // Check if user exists and has appropriate access
-  if (!user) {
-    return <Navigate to="/" replace />;
+  if (!token || !user) {
+    return <Navigate to="/login" replace />;
   }
 
   // Allow access based on user level and required level

@@ -39,6 +39,8 @@ export default function DefaultLayout() {
     axiosClient
       .post('/logout')
       .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
         navigate("/login");
       })
       .catch((error) => {

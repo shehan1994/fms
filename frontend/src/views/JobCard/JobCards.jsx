@@ -4,13 +4,14 @@ import axiosClient from "../../axios.js";
 import TButton from "../../components/core/TButton";
 import PageComponent from "../../components/PageComponent";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "./styles.css"; // Import your styles
 import { useSelector } from "react-redux";
 import ModalQuarter from "../../components/core/ModalQuarter.jsx";
 
 export default function JobCards() {
+  const navigate = useNavigate();
   const { showToast } = useStateContext();
   const [jobCards, setJobCards] = useState([]);
   const [meta, setMeta] = useState({});
@@ -24,15 +25,11 @@ export default function JobCards() {
   const searchTermLower = searchTerm.toLowerCase();
   const [payment, setPayment] = useState({});
   const user = useSelector((state) => state.auth.user);
+  const location = useLocation();
 
-  // const onDeleteClick = (id) => {
-  //   if (window.confirm("Are you sure you want to delete this customer?")) {
-  //     axiosClient.delete(`/customer/${id}`).then(() => {
-  //       getCustomers();
-  //       showToast('The customer was deleted');
-  //     });
-  //   }
-  // };
+  useEffect(() => {
+    getJobCards();
+  }, [location.state?.reload]);
 
   const onPageClick = (link) => {
     getJobCards(link.url);
@@ -85,7 +82,7 @@ export default function JobCards() {
       const response = await axiosClient.post("/payment", payload);
       closeModal();
       showToast("Payment added Successfully");
-      navigate("/job_cards");
+      navigate("/job_cards", { state: { reload: Date.now() } });
     } catch (err) {
       console.error("Error finishing job card:", err);
       if (err && err.response) {
@@ -265,7 +262,7 @@ export default function JobCards() {
                           </button>
                         }
                         {row.status === "3" &&
-                          <button onClick={() => handlePaymentClick(row)} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded w-24">
+                          <button onClick={() => handlePaymentClick(row)} className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-1 px-1 border-b-4 border-yellow-700 hover:border-yellow-500 rounded w-24">
                             Payment
                           </button>
                         }

@@ -4,12 +4,12 @@ import axiosClient from "../../../axios.js";
 import TButton from "../../../components/core/TButton";
 import PageComponent from "../../../components/PageComponent";
 import { useStateContext } from "../../../contexts/ContextProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ModalQuarter from "../../../components/core/ModalQuarter.jsx";
-import ModalHalf from "../../../components/core/ModalHalf.jsx";
 import { useSelector } from "react-redux";
 
 export default function EngineerJobCards() {
+  const navigate = useNavigate();
   const { showToast } = useStateContext();
   const [jobCards, setJobCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,16 +23,16 @@ export default function EngineerJobCards() {
   const [selectedJobCard, setSelectedJobCard] = useState(null);
   const [finishJob, setFinishJob] = useState({});
   const user = useSelector((state) => state.auth.user);
+  const location = useLocation();
 
-
-
+  useEffect(() => {
+    getJobCards();
+  }, [location.state?.reload]); 
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
-
-
 
   const onPageClick = (link) => {
     getJobCards(link.url);

@@ -1,6 +1,6 @@
 import { useContext, createContext, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserToken } from '../redux/slices/authSlice'; // Assume this action is available in your Redux slice
+import { setUserToken } from '../redux/slices/authSlice';
 
 const StateContext = createContext({
   currentUser: {},
@@ -13,10 +13,6 @@ const StateContext = createContext({
   setUserToken: () => { },
 });
 
-const tmpSurveys = [
-  // Existing surveys data
-];
-
 export const ContextProvider = ({ children }) => {
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -27,13 +23,12 @@ export const ContextProvider = ({ children }) => {
   });
 
   const setCurrentUser = (user) => {
-    // Here you would normally set the user using dispatch if needed
-    // dispatch(setCurrentUser(user)); 
+    // Update user in state if needed
   };
 
   const showToast = (message, icon = "success") => {
     setToast({ message, icon, show: true });
-  
+
     // Reset the toast state after showing it
     setTimeout(() => {
       setToast({ message: "", icon: "success", show: false });
