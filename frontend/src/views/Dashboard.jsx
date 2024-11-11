@@ -36,7 +36,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700">
 
             <DashboardCard
-              title="Total Apartment"
+              title="TOTAL APARTMENTS"
               className="order-1 lg:order-2"
               style={{ animationDelay: '0.1s' }}
             >
@@ -45,7 +45,7 @@ export default function Dashboard() {
               </div>
             </DashboardCard>
             <DashboardCard
-              title="Total Customers"
+              title="TOTAL CUSTOMERS"
               className="order-2 lg:order-4"
               style={{ animationDelay: '0.2s' }}
             >
@@ -54,7 +54,7 @@ export default function Dashboard() {
               </div>
             </DashboardCard>
             <DashboardCard
-              title="Latest Jobs"
+              title="LATEST JOBS"
               className="order-3 lg:order-1 row-span-2"
               style={{ animationDelay: '0.2s' }}
             >
@@ -62,16 +62,16 @@ export default function Dashboard() {
                 data.latestJobCard.map((job, index) => (
                   <div key={index} className="mt-5 border rounded-xl m-2 p-2 bg-blue-100">
                     <div className="flex justify-between text-sm mb-1">
-                      <div>Create Date:</div>
-                      <div>{job?.created_at}</div>
+                      <div>Job Card Number:</div>
+                      <div>J-00{job?.id}</div>
                     </div>
                     <div className="flex justify-between text-sm mb-1">
                       <div>Assign Date:</div>
                       <div>{job?.assign_date}</div>
                     </div>
                     <div className="flex justify-between text-sm mb-1">
-                      <div>Job Card Number:</div>
-                      <div>J-00{job?.id}</div>
+                      <div>Create Date:</div>
+                      <div>{job?.created_at}</div>
                     </div>
                     <div className="flex justify-between">
                       <TButton to={`/job_cards`} link>
@@ -93,7 +93,7 @@ export default function Dashboard() {
             </DashboardCard>
 
             <DashboardCard
-              title="Total Income"
+              title="TOTAL INCOME"
               className="order-4 lg:order-3 row-span-2"
               style={{ animationDelay: '0.3s' }}
             >
@@ -103,15 +103,12 @@ export default function Dashboard() {
             </DashboardCard>
 
             <DashboardCard
-              title="Employee Count by Role"
+              title="EMPLOYEE COUNT BY ROLE"
               className="order-3 lg:order-1 row-span-2"
               style={{ animationDelay: '0.2s' }}
             >
               {data?.levelCounts && (
                 <div>
-                  {/* <h3 className="font-bold text-xl mb-3">
-                    Employee Count by Role
-                  </h3> */}
                   {data?.levelCounts.map((levelData) => {
                     let roleName = '';
                     switch (levelData.level) {
@@ -152,7 +149,7 @@ export default function Dashboard() {
               )}
             </DashboardCard>
             <DashboardCard
-              title="Employee Count"
+              title="EMPLOYEE COUNT"
               className="order-5 lg:order-3 row-span-2"
               style={{ animationDelay: '0.3s' }}
             >
@@ -161,7 +158,7 @@ export default function Dashboard() {
               </div>
             </DashboardCard>
             <DashboardCard
-              title="Job Count"
+              title="jOB COUNT"
               className="order-5 lg:order-3 row-span-2"
               style={{ animationDelay: '0.3s' }}
             >
@@ -170,7 +167,7 @@ export default function Dashboard() {
               </div>
             </DashboardCard>
             <DashboardCard
-              title="Job Status Summary"
+              title="JOB STATUS SUMMARY"
               className="order-3 lg:order-1 row-span-2"
               style={{ animationDelay: '0.2s' }}
             >
@@ -178,9 +175,9 @@ export default function Dashboard() {
                 <div>
                   <h5 className=" mb-3">Each job cards status count</h5>
                   {data.jobCounts.map((job) => (
-                    <div key={job.status} className="flex justify-between text-sm mb-3 p-2 bg-gray-100 rounded-md">
+                    <div key={job.status} className="flex justify-between text-sm mb-3 p-2 bg-gray-100 rounded-md mt-5">
 
-                      <span className="font-medium">Jobs Status - 
+                      <span className="font-medium">Jobs Status -
                         {job.status === "1" ? " Assign to Engineer" :
                           job.status === "2" ? " Team Assigned" :
                             job.status === "3" ? " Engineer Finished" :
@@ -197,10 +194,8 @@ export default function Dashboard() {
               )}
             </DashboardCard>
             <CardBarChart dashboard={data} />
-
           </div>
         </>
-
       )}
     </PageComponent>
   );

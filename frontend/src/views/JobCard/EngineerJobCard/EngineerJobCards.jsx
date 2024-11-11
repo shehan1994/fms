@@ -79,6 +79,8 @@ export default function EngineerJobCards() {
       const response = await axiosClient.post("/job_card/finishByEngineer", payload);
       closeModal();
       showToast("The Job card finished By Engineer");
+      const message = "Your Job finished successfully. Thank you !"
+      sendSmS("0771397086", message);
       navigate("/engineer_job_cards", { state: { reload: Date.now() } });
     } catch (err) {
       console.error("Error finishing job card:", err);
@@ -95,6 +97,15 @@ export default function EngineerJobCards() {
     setShowFinishModal(false);
     setSelectedJobCard(null);
     setFinishJob({});
+  };
+
+  const sendSmS = (mobileNo, message) => {
+    axiosClient.get(`/sms?phoneNumber=${mobileNo}&message=${message}`).then((response) => {
+      console.log("resp", response);
+
+    }).catch((error) => {
+      console.error('Error fetching customer options', error);
+    });
   };
 
   return (
