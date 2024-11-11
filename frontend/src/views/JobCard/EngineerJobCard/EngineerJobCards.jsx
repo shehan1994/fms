@@ -83,7 +83,6 @@ export default function EngineerJobCards() {
       sendSmS("0771397086", message);
       navigate("/engineer_job_cards", { state: { reload: Date.now() } });
     } catch (err) {
-      console.error("Error finishing job card:", err);
       if (err && err.response) {
         showToast("Please contact admin");
         closeModal();
