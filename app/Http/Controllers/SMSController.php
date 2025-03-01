@@ -91,10 +91,10 @@ class SMSController extends Controller
             'message' => 'required|string'
         ]);
 
-        $apiKey = '94718905314';
-        $password = '1530';
-        // $apiKey = '94771397086';
-        // $password = '1476';
+        // $apiKey = '94718905314';
+        // $password = '1530';
+        $apiKey = '94771397086';
+        $password = '1476';
         $phoneNumber = $request->query('phoneNumber'); // Corrected format with country code
         $message = $request->query('message'); // Your message
         $encodedMessage = urlencode($message);
